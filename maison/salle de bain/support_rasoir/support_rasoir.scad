@@ -53,17 +53,21 @@ module pince(diametre, petit_rayon, grand_rayon){
 
 module support_pince(diametre, petit_rayon, grand_rayon, hauteur){
 	minkowski(){
-	union(){
-	difference(){
-		rotate_extrude($fn = detail) translate([petit_rayon, 0, 0]) square([diametre/2-rayon_sphere, hauteur]);	
-		translate([-(petit_rayon+rayon_sphere),0,-marge]) cube([2*(petit_rayon+rayon_sphere+marge), petit_rayon+rayon_sphere, hauteur+2*marge]);
+		difference(){
+			union(){
+				difference(){
+					rotate_extrude($fn = detail) translate([petit_rayon, 0, 0]) square([diametre/2-rayon_sphere, hauteur]);	
+					translate([-(petit_rayon+rayon_sphere),0,-marge]) cube([2*(petit_rayon+rayon_sphere+marge), petit_rayon+rayon_sphere, hauteur+2*marge]);
+				}
+				translate([petit_rayon+(diametre/2-rayon_sphere)/2, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere, petit_rayon, hauteur], center = true);
+				translate([-petit_rayon-(diametre/2-rayon_sphere)/2, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere, petit_rayon, hauteur], center = true);
+				translate([0, -petit_rayon-rayon_sphere, (hauteur+diametre-2*rayon_sphere)/2]) cube([petit_rayon-2*rayon_sphere,diametre-2*rayon_sphere,hauteur+diametre-2*rayon_sphere], center=true);	
+			}
+			translate([0, -petit_rayon, hauteur]) rotate([-90,0,90]) linear_extrude(height=2*(petit_rayon+rayon_sphere+marge), center=true) polygon(points=[[2*(petit_rayon+marge),hauteur+marge],[2*(petit_rayo+marge),0],[0,hauteur+marge]], paths=[[0,1,2]]);
+		}
+		sphere (rayon_sphere, $fn=detail);
 	}
-	translate([petit_rayon+diametre/2-2*rayon_sphere,petit_rayon/2,0]) rotate([90,0,0]) linear_extrude(height = petit_rayon, center = true, convexity = 10, twist = 0) square([diametre/2-rayon_sphere, hauteur]);
-	translate([-petit_rayon-diametre/2+rayon_sphere,petit_rayon/2,0]) rotate([90,0,0]) linear_extrude(height = petit_rayon, center = true, convexity = 10, twist = 0) square([diametre/2-rayon_sphere, hauteur]);
-	translate([0,-petit_rayon-rayon_sphere,(hauteur+diametre-2*rayon_sphere)/2]) cube([petit_rayon-2*rayon_sphere,diametre-2*rayon_sphere,hauteur+diametre-2*rayon_sphere], center=true);	
-	}
-	sphere (rayon_sphere, $fn=detail);
-	}
+	
 }
 
 module pince_complete(diametre, petit_rayon, grand_rayon, hauteur){
@@ -75,14 +79,14 @@ module pince_blaireau(){
 	translate([-rayon_sphere-petit_rayon_support_blaireau-diametre_tube_blaireau/2,0,cote_triangle/2]) rotate([0,90,90]) pince_complete(diametre_tube_blaireau, petit_rayon_support_blaireau, grand_rayon_support_blaireau,diametre_tube_blaireau);
 	rotate([90,0,0]) 
 	difference(){
-	minkowski(){
-		difference(){
-		linear_extrude(height=longueur_trapeze, center=true) polygon(points=[[0,0],[cote_triangle,0],[0,cote_triangle]], paths=[[0,1,2]]);
-		rotate([0,O,45]) cube([8,8,longueur_trapeze], center=true);
+		minkowski(){
+			difference(){
+				linear_extrude(height=longueur_trapeze, center=true) polygon(points=[[0,0],[cote_triangle,0],[0,cote_triangle]], paths=[[0,1,2]]);
+				rotate([0,O,45]) cube([8,8,longueur_trapeze], center=true);
+			}
+			sphere (rayon_sphere, $fn=detail);
 		}
-		sphere (rayon_sphere, $fn=detail);
-	}
-	rotate([0,0,45]) translate([hauteur_triangle+(rayon_sphere/2),0,0]) cube([rayon_sphere,150,150], center=true);
+		rotate([0,0,45]) translate([hauteur_triangle+(rayon_sphere/2),0,0]) cube([rayon_sphere,150,150], center=true);
 	}
 }
 
@@ -92,20 +96,20 @@ module pince_rasoir(){
 }
 
 module support_blaireau(){
-difference(){
-	pince_blaireau();
-	translate([4-rayon_sphere-marge+cote_triangle/8, 0, -rayon_sphere]) color("red") rotate([90,0,0]) linear_extrude(height=2*marge+3*longueur_trapeze/4, center=true) polygon(points=[[0,0],[2*marge+3*cote_triangle/4,0],[0,2*marge+3*cote_triangle/4]], paths=[[0,1,2]]);
-	translate([0,longueur_trapeze/4-rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
-	translate([0,-longueur_trapeze/4+rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
-}
+	difference(){
+		pince_blaireau();
+		translate([4-rayon_sphere-marge+cote_triangle/8, 0, -rayon_sphere]) color("red") rotate([90,0,0]) linear_extrude(height=2*marge+3*longueur_trapeze/4, center=true) polygon(points=[[0,0],[2*marge+3*cote_triangle/4,0],[0,2*marge+3*cote_triangle/4]], paths=[[0,1,2]]);
+		translate([0,longueur_trapeze/4-rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
+		translate([0,-longueur_trapeze/4+rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
+	}
 }
 
 module support_rasoir(){
-difference(){
-	pince_rasoir();
-	translate([0,longueur_trapeze/4-rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
-	translate([0,-longueur_trapeze/4+rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
-}
+	difference(){
+		pince_rasoir();
+		translate([0,longueur_trapeze/4-rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
+		translate([0,-longueur_trapeze/4+rayon_sphere,0]) rotate([0,45,0]) translate([0,0,2]) vis();
+	}
 }
 
 support_blaireau();
