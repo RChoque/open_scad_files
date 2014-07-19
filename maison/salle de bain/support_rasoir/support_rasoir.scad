@@ -1,9 +1,9 @@
-detail = 10;
+detail = 50;
 rayon_sphere = 2;
 marge = 0.5;
 diametre_tube_blaireau = 8;
 diametre_tube_rasoir = 6;
-petit_rayon_support_blaireau = 13+diametre_tube_blaireau/2;
+petit_rayon_support_blaireau = 14+diametre_tube_blaireau/2;
 petit_rayon_support_rasoir = 6.5+diametre_tube_rasoir/2;
 grand_rayon_support_blaireau = petit_rayon_support_blaireau*2;
 grand_rayon_support_rasoir = petit_rayon_support_rasoir*2;
@@ -56,18 +56,17 @@ module support_pince(diametre, petit_rayon, grand_rayon, hauteur){
 		difference(){
 			union(){
 				difference(){
-					rotate_extrude($fn = detail) translate([petit_rayon, 0, 0]) square([diametre/2-rayon_sphere, hauteur]);	
+					rotate_extrude($fn = detail) translate([petit_rayon-rayon_sphere/2, 0, 0]) square([diametre/2-rayon_sphere/2, hauteur]);	
 					translate([-(petit_rayon+rayon_sphere),0,-marge]) cube([2*(petit_rayon+rayon_sphere+marge), petit_rayon+rayon_sphere, hauteur+2*marge]);
 				}
-				translate([petit_rayon+(diametre/2-rayon_sphere)/2, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere, petit_rayon, hauteur], center = true);
-				translate([-petit_rayon-(diametre/2-rayon_sphere)/2, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere, petit_rayon, hauteur], center = true);
-				translate([0, -petit_rayon-rayon_sphere, (hauteur+diametre-2*rayon_sphere)/2]) cube([petit_rayon-2*rayon_sphere,diametre-2*rayon_sphere,hauteur+diametre-2*rayon_sphere], center=true);	
+				translate([petit_rayon-3*rayon_sphere/4+diametre/4, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere/2, petit_rayon, hauteur], center = true);
+				translate([-(petit_rayon-3*rayon_sphere/4)-diametre/4, petit_rayon/2, hauteur/2]) cube([diametre/2-rayon_sphere/2, petit_rayon, hauteur], center = true);
+				translate([0, -petit_rayon-rayon_sphere, (hauteur+diametre-3*rayon_sphere)/2]) cube([petit_rayon-2*rayon_sphere,diametre-2*rayon_sphere,hauteur+diametre-3*rayon_sphere], center=true);	
 			}
-			translate([0, -petit_rayon, hauteur]) rotate([-90,0,90]) linear_extrude(height=2*(petit_rayon+rayon_sphere+marge), center=true) polygon(points=[[2*(petit_rayon+marge),hauteur+marge],[2*(petit_rayo+marge),0],[0,hauteur+marge]], paths=[[0,1,2]]);
+			translate([0, -petit_rayon, hauteur]) rotate([-90,0,90]) linear_extrude(height=2*(petit_rayon+rayon_sphere+marge), center=true) polygon(points=[[2*(petit_rayon+marge),hauteur+marge],[2*(petit_rayon+marge),0],[0,hauteur+marge]], paths=[[0,1,2]]);
 		}
 		sphere (rayon_sphere, $fn=detail);
 	}
-	
 }
 
 module pince_complete(diametre, petit_rayon, grand_rayon, hauteur){
