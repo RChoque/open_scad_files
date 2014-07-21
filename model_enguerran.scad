@@ -9,7 +9,7 @@ rayon_cylindre_creux = 5;
 rayon_mini_cylindre = 1.5;
 hauteur_mini_cylindre = 33.85;
 rayon_cone = 2;
-hauteur_cone = 10;
+hauteur_cone = 13.1;
 cote_triangle = 9.4;
 hauteur_triangle = 5.3;
 largeur_cube = 9.34;
@@ -33,11 +33,14 @@ module vis(){
 
 module socle(){
 	translate([0,0,(hauteur_cylindre_base/2)]) color("blue") cylinder(h=hauteur_cylindre_base, r=rayon_cylindre_base, $fn=detail, center=true);
+translate([-3,20,7.4]) cube([6,6,2.5]);
 	difference(){
 		translate([-10.2,-10.2,0]) linear_extrude(height=hauteur_socle) scale([0.58,0.58,1]) import("piece_enguerran_nb.dxf");
 		translate([0,0,((3*hauteur_cylindre_base+marge)/2)]) color("blue") cylinder(h=hauteur_cylindre_base+marge, r=rayon_cylindre_base, $fn=detail, center=true);
 		translate([0,17.05,0]) color("pink") vis();
+		
 	}
+
 }
 
 module trapeze(){
@@ -53,14 +56,25 @@ module pointe(){
 	translate([0,0,(hauteur_mini_cylindre-hauteur_cylindre_haut)/2]) color("green") cylinder(h=hauteur_mini_cylindre, r=rayon_mini_cylindre, $fn=detail, center=true);
 }
 
-socle();
-translate([0,0,hauteur_cylindre_base]) trapeze();
-translate([0,0,hauteur_cylindre_haut/2]) pointe();
-
-translate([0,5+rayon_cylindre_base,hauteur_socle+hauteur_cube/2]) 
-difference(){
-	translate([0,longueur_cube/2,0]) cube([largeur_cube,longueur_cube,hauteur_cube], center=true);
-	translate([0,longueur_cube_inner/2,0]) cube([largeur_cube_inner,longueur_cube_inner,hauteur_cube], center=true);
+module piece_complete(){
+	difference(){
+		union(){
+			socle();
+			translate([0,0,hauteur_cylindre_base]) trapeze();
+			translate([0,0,hauteur_cylindre_haut/2]) pointe();
+			translate([0,5+rayon_cylindre_base,hauteur_socle+hauteur_cube/2]) 
+			difference(){
+				translate([0,longueur_cube/2,0]) cube([largeur_cube,longueur_cube,hauteur_cube], center=true);
+				translate([0,longueur_cube_inner/2,0]) cube([largeur_cube_inner,longueur_cube_inner,hauteur_cube], center=true);
+			
+			}
+		}
+		translate([0,3.4,0]) rotate([90,0,0]) cylinder(h=18.8, r=3.3, $fn=detail, center=true);
+		//cylinder(h=0.5, r=rayon_cylindre_base-3.3, $fn=detail, center=true);
+	}
 }
 
 
+
+
+piece_complete();
