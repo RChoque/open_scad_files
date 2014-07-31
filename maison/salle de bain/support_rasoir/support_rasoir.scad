@@ -40,10 +40,10 @@ module pince(diametre, petit_rayon, grand_rayon){
 	semi_circle(diametre, petit_rayon);
 	translate([petit_rayon,petit_rayon,grand_rayon]) rotate([0,90,180]) end_curve(diametre, petit_rayon, grand_rayon);
 	translate([petit_rayon,petit_rayon/2-0.1,0]) rotate([90,0,0]) cylinder(h=petit_rayon+0.4, r=diametre/2, $fn=detail, center=true);
-	translate([petit_rayon,petit_rayon+(sin(angle)*grand_rayon),grand_rayon-(cos(angle)*grand_rayon)]) sphere(diametre/2, $fn=detail); 
+	translate([petit_rayon,petit_rayon+(sin(angle)*grand_rayon),grand_rayon-(cos(angle)*grand_rayon)+0.2]) sphere(diametre/2, $fn=detail); 
 	translate([-petit_rayon,petit_rayon,grand_rayon]) rotate([0,90,180]) end_curve(diametre, petit_rayon, grand_rayon);
 	translate([-petit_rayon,petit_rayon/2-0.1,0]) rotate([90,0,0]) cylinder(h=petit_rayon+0.4, r=diametre/2, $fn=detail, center=true);
-	translate([-petit_rayon,petit_rayon+(sin(angle)*grand_rayon),grand_rayon-(cos(angle)*grand_rayon)]) sphere(diametre/2, $fn=detail); 
+	translate([-petit_rayon,petit_rayon+(sin(angle)*grand_rayon),grand_rayon-(cos(angle)*grand_rayon)+0.2]) sphere(diametre/2, $fn=detail); 
 }
 
 module support_pince(diametre, petit_rayon, grand_rayon, hauteur){
@@ -106,5 +106,5 @@ module support_rasoir(){
 	}
 }
 
-support_blaireau();
-//support_rasoir();
+//support_blaireau();
+support_rasoir();
