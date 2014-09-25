@@ -1,5 +1,5 @@
 longueur_carte = 114;
-largeur_carte = 63;
+largeur_carte = 64;
 epaisseur_carte = 0.5;
 nb_cartes = 94;
 hauteur_cartes = epaisseur_carte*nb_cartes;
@@ -21,12 +21,12 @@ module triangle_decoupe(longueur, largeur, hauteur){
 }
 
 module bloc_verrou(longueur_carte, largeur_carte, epaisseur){
-	translate([0,-largeur_carte/2,0]) verrou(epaisseur);
-	translate([0,largeur_carte/2,0]) rotate([0,0,180])verrou(epaisseur);
+	translate([0,-largeur_carte/2-epaisseur+marge,0]) verrou(epaisseur);
+	translate([0,largeur_carte/2+epaisseur-marge,0]) rotate([0,0,180])verrou(epaisseur);
 }
 
 module verrou(epaisseur){
-	translate([0,0, 2*epaisseur]) sphere(epaisseur);
+	translate([0,0, 2*epaisseur]) sphere(r = epaisseur);
 	translate([0,epaisseur/2, 3*epaisseur/2])cube([2*epaisseur, epaisseur, 3*epaisseur], center=true);
 }
 
@@ -46,9 +46,21 @@ module couvercle(){
 	difference(){
 		cube([longueur_carte+4*marge+4*epaisseur, largeur_carte+4*marge+4*epaisseur, hauteur_cartes+epaisseur+marge], center=true);
 		translate([0,0,epaisseur/2]) cube([longueur_carte+2*marge, largeur_carte+2*marge, hauteur_cartes+manifold+marge], center=true);
-		translate([0,0,hauteur_cartes/2+epaisseur]) rotate([180,0,0]) color("green") base_negative();	
+		translate([0,0,hauteur_cartes/2+epaisseur]) rotate([180,0,0]) color("green") base_negative();
 	}
 }
 
-translate([0,-largeur_carte,0]) color("blue") base();
-translate([0,+largeur_carte,0]) color("red") couvercle();
+module couvercle_with_logo(){
+	difference(){
+		couvercle();
+		translate([-45,25,-hauteur_cartes/2-epaisseur+0.6]) color("black") logo();
+	}
+}
+
+module logo(){
+	rotate([180, 0, 0]) linear_extrude(height=0.7) scale([0.6, 0.6]) import("shinobi.dxf");
+}
+
+translate([0,0,hauteur_cartes/2]) rotate([0, 180, 0]) translate([0,-largeur_carte,0]) color("blue") base();
+//translate([0,+largeur_carte,0]) couvercle();
+translate([0,+largeur_carte,0]) couvercle_with_logo();
