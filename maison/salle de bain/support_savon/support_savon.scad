@@ -1,12 +1,12 @@
-detail = 50;
+detail = 20;
 marge = 0.5;
 epaisseur = 2;
-longueur = 122;
-profondeur = 99;
+longueur = 118;
+profondeur = 94;
 largeur = 17;
-hauteur = 25;
-espace_x = 6;
-espace_y = 6;
+hauteur = 19;
+espace_x = 3;
+espace_y = 2;
 epaisseur_support = 2*epaisseur;
 
 longueur_ext = longueur+2*(epaisseur+marge);
@@ -43,8 +43,8 @@ module support_savon(){
 		color("Red") porte_savon();
 		translate([longueur/2+2*marge,-profondeur/2-(epaisseur+marge),-(hauteur+epaisseur+marge)/2])  fixation();
 		}
-		translate([(longueur_ext/2+(epaisseur_support+espace_x)+(longueur_ext/3-(epaisseur_support+espace_x))/4),espace_y+profondeur_ext/2-epaisseur_support-marge,0 ]) rotate([-90,0,0]) vis();
-		translate([(longueur_ext/2+(epaisseur_support+espace_x)+3*(longueur_ext/3-(epaisseur_support+espace_x))/4),espace_y+profondeur_ext/2-epaisseur_support-marge,0 ]) rotate([-90,0,0]) vis();
+		translate([(longueur_ext/2+(epaisseur_support+espace_x)+(longueur_ext/3-(epaisseur_support+espace_x))/4),espace_y+profondeur_ext/2-epaisseur_support-marge,epaisseur_support/2 ]) rotate([-90,0,0]) vis();
+		translate([(longueur_ext/2+(epaisseur_support+espace_x)+3*(longueur_ext/3-(epaisseur_support+espace_x))/4),espace_y+profondeur_ext/2-epaisseur_support-marge,epaisseur_support/2 ]) rotate([-90,0,0]) vis();
 	}
 }
 
