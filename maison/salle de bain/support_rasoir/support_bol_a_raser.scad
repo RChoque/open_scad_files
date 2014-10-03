@@ -1,4 +1,4 @@
-detail = 50;
+detail = 30;
 rayon_sphere = 2;
 hauteur = 30;
 diametre= 10;
