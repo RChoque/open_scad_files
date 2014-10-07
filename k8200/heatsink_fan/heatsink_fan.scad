@@ -2,8 +2,6 @@ fan_width = 40;
 rounded_corner = 2;
 detail = 50;
 
-//translate([0,0, -17.5]) import("K8200_extruder_fan_housing.stl");
-
 translate([0,-3,0]) etape5();
 
 module fan_holder(){
@@ -73,7 +71,7 @@ module etape3(){
 	difference(){
 		union(){
 			etape2();
-			translate([0,-22,0]) cube([30,15,27], center=true);
+			translate([0,-21.6,0]) cube([30,16,27], center=true);
 		}
 		translate([0,-25,0]) rotate([90,0,0]) color("red") cylinder(r=12, h=40, $fn=detail, center=true);
 	}	
@@ -92,7 +90,7 @@ module etape5(){
 	difference(){
 		union(){
 			etape4();
-			translate([0,-42,6.5]) rotate([90,0,0]) fan_holder();			
+			translate([0,-41.9,6.5]) rotate([90,0,0]) fan_holder();			
 		}
 		for (i=[0:3]){
 			translate([0,0,6.5]) rotate([90,90,0]) rotate([0,0,90*i]) translate([16.5,16.5,34.6]) cylinder(h=10, r=4, $fn=detail, center=true);
