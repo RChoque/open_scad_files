@@ -28,6 +28,7 @@ espace_encoche_y = 5.5;
 longueur_cran = 10;
 radius = 3;
 marge = 0.5;
+detail = 50;
 longueur_max_tige = 71.1;
 longueur_min_tige = 58;
 largeur_max_tige = 12.8;
@@ -129,6 +130,7 @@ module fixation_haut(){
 
 module tige(){
 	translate([0,0,(30.8+hauteur_fixation-2*radius)/2])
+	rotate([180, 0, 0])
 	difference(){
 		minkowski(){
 			linear_extrude(height=(30.8+hauteur_fixation-2*radius), center=true, convexity = 10, twist = 0, scale=[1.05,1.43]) 
@@ -142,8 +144,8 @@ module tige(){
 				], paths=[[0,1,2,3,4,5]]);
 			sphere (radius, $fn=detail);
 		}
-		translate([0,0,(30.8+hauteur_fixation-radius)/2]) cube([longueur_max_tige, 2*largeur_max_tige, radius], center = true);
-		translate([0,0,-(30.8+hauteur_fixation-radius)/2]) cube([longueur_max_tige, 2*largeur_max_tige, radius], center = true);
+		translate([0,0,(30.8+hauteur_fixation-radius)/2]) cube([2*longueur_max_tige, 2*largeur_max_tige, radius], center = true);
+		translate([0,0,-(30.8+hauteur_fixation-radius)/2]) cube([2*longueur_max_tige, 2*largeur_max_tige, radius], center = true);
 	}				
 }
 
