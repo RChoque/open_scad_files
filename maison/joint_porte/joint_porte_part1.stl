@@ -1,0 +1,240 @@
+solid OpenSCAD_Model
+  facet normal -0.999924 0.0122925 -2.22028e-16
+    outer loop
+      vertex -40.0355 -180 -8.88967e-15
+      vertex -37.8227 0 -8.39833e-15
+      vertex -40.0355 -180 -3
+    endloop
+  endfacet
+  facet normal -0.999924 0.0122925 -2.22028e-16
+    outer loop
+      vertex -40.0355 -180 -3
+      vertex -37.8227 0 -8.39833e-15
+      vertex -37.8227 0 -3
+    endloop
+  endfacet
+  facet normal -2.22045e-16 0 1
+    outer loop
+      vertex -37.8227 0 -8.39833e-15
+      vertex -40.0355 -180 -8.88967e-15
+      vertex -26.595 -180 -5.90528e-15
+    endloop
+  endfacet
+  facet normal -2.22045e-16 0 1
+    outer loop
+      vertex -26.595 0 -5.90528e-15
+      vertex -37.8227 0 -8.39833e-15
+      vertex -26.595 -180 -5.90528e-15
+    endloop
+  endfacet
+  facet normal 4.44089e-16 -1 9.86076e-32
+    outer loop
+      vertex -40.0355 -180 -3
+      vertex -39.6096 -180 -3.5
+      vertex -26.595 -180 -3.5
+    endloop
+  endfacet
+  facet normal 4.44089e-16 -1 9.86076e-32
+    outer loop
+      vertex -40.0355 -180 -8.88967e-15
+      vertex -40.0355 -180 -3
+      vertex -26.595 -180 -5.90528e-15
+    endloop
+  endfacet
+  facet normal 4.44089e-16 -1 9.86076e-32
+    outer loop
+      vertex -26.595 -180 -5.90528e-15
+      vertex -40.0355 -180 -3
+      vertex -26.595 -180 -3.5
+    endloop
+  endfacet
+  facet normal -0.761186 0.00935762 -0.648466
+    outer loop
+      vertex -40.0355 -180 -3
+      vertex -37.8227 0 -3
+      vertex -39.6096 -180 -3.5
+    endloop
+  endfacet
+  facet normal -0.761186 0.00935762 -0.648466
+    outer loop
+      vertex -39.6096 -180 -3.5
+      vertex -37.8227 0 -3
+      vertex -26.3218 0 -16.5
+    endloop
+  endfacet
+  facet normal -0.761186 0.00935762 -0.648466
+    outer loop
+      vertex -39.6096 -180 -3.5
+      vertex -26.3218 0 -16.5
+      vertex -28.6576 -190 -16.5
+    endloop
+  endfacet
+  facet normal -0.761186 0.00935762 -0.648466
+    outer loop
+      vertex -39.6096 -180 -3.5
+      vertex -28.6576 -190 -16.5
+      vertex -29.5095 -190 -15.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex 7.32747e-15 0 -16.5
+      vertex -16.595 0 -15.5
+      vertex 6.88338e-15 0 -15.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -26.3218 0 -16.5
+      vertex -16.595 0 -15.5
+      vertex 7.32747e-15 0 -16.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -26.595 0 -3.5
+      vertex -16.595 0 -15.5
+      vertex -26.3218 0 -16.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -26.595 0 -3.5
+      vertex -26.3218 0 -16.5
+      vertex -37.8227 0 -3
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -26.595 0 -3.5
+      vertex -37.8227 0 -3
+      vertex -26.595 0 -5.90528e-15
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -37.8227 0 -3
+      vertex -37.8227 0 -8.39833e-15
+      vertex -26.595 0 -5.90528e-15
+    endloop
+  endfacet
+  facet normal 1 2.22045e-16 2.22045e-16
+    outer loop
+      vertex -26.595 -180 -5.90528e-15
+      vertex -26.595 -180 -3.5
+      vertex -26.595 0 -3.5
+    endloop
+  endfacet
+  facet normal 1 2.22045e-16 2.22045e-16
+    outer loop
+      vertex -26.595 0 -5.90528e-15
+      vertex -26.595 -180 -5.90528e-15
+      vertex -26.595 0 -3.5
+    endloop
+  endfacet
+  facet normal 0.768221 1.70579e-16 0.640184
+    outer loop
+      vertex -26.595 0 -3.5
+      vertex -26.595 -180 -3.5
+      vertex -16.595 0 -15.5
+    endloop
+  endfacet
+  facet normal 0.768221 1.70579e-16 0.640184
+    outer loop
+      vertex -16.595 0 -15.5
+      vertex -26.595 -180 -3.5
+      vertex -16.595 -190 -15.5
+    endloop
+  endfacet
+  facet normal 1.99009e-16 -0.768221 0.640184
+    outer loop
+      vertex -29.5095 -190 -15.5
+      vertex -3.06644e-15 -190 -15.5
+      vertex 6.88338e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 1.99009e-16 -0.768221 0.640184
+    outer loop
+      vertex -16.595 -190 -15.5
+      vertex -29.5095 -190 -15.5
+      vertex 6.88338e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 1.99009e-16 -0.768221 0.640184
+    outer loop
+      vertex -39.6096 -180 -3.5
+      vertex -29.5095 -190 -15.5
+      vertex -26.595 -180 -3.5
+    endloop
+  endfacet
+  facet normal 1.99009e-16 -0.768221 0.640184
+    outer loop
+      vertex -16.595 -190 -15.5
+      vertex -26.595 -180 -3.5
+      vertex -29.5095 -190 -15.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -28.6576 -190 -16.5
+      vertex 7.32747e-15 -190 -16.5
+      vertex 6.88338e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -29.5095 -190 -15.5
+      vertex -28.6576 -190 -16.5
+      vertex -3.06644e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -3.06644e-15 -190 -15.5
+      vertex -28.6576 -190 -16.5
+      vertex 6.88338e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 2.22045e-16 0 -1
+    outer loop
+      vertex -28.6576 -190 -16.5
+      vertex -26.3218 0 -16.5
+      vertex 7.32747e-15 -190 -16.5
+    endloop
+  endfacet
+  facet normal 2.22045e-16 0 -1
+    outer loop
+      vertex 7.32747e-15 -190 -16.5
+      vertex -26.3218 0 -16.5
+      vertex 7.32747e-15 0 -16.5
+    endloop
+  endfacet
+  facet normal 1 0 4.44089e-16
+    outer loop
+      vertex 7.32747e-15 -190 -16.5
+      vertex 7.32747e-15 0 -16.5
+      vertex 6.88338e-15 -190 -15.5
+    endloop
+  endfacet
+  facet normal 1 0 4.44089e-16
+    outer loop
+      vertex 6.88338e-15 0 -15.5
+      vertex 6.88338e-15 -190 -15.5
+      vertex 7.32747e-15 0 -16.5
+    endloop
+  endfacet
+  facet normal -2.22045e-16 0 1
+    outer loop
+      vertex -16.595 -190 -15.5
+      vertex 6.88338e-15 -190 -15.5
+      vertex 6.88338e-15 0 -15.5
+    endloop
+  endfacet
+  facet normal -2.22045e-16 0 1
+    outer loop
+      vertex -16.595 0 -15.5
+      vertex -16.595 -190 -15.5
+      vertex 6.88338e-15 0 -15.5
+    endloop
+  endfacet
+endsolid OpenSCAD_Model
