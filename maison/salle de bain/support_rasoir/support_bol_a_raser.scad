@@ -1,7 +1,7 @@
 detail = 30;
 rayon_sphere = 2;
-hauteur = 30;
-diametre= 10;
+hauteur = 20;
+diametre= 7;
 rayon = 50;
 
 module tore(diametre, petit_rayon){
@@ -37,15 +37,15 @@ module vis(){
 module support_complet(){
 	difference(){
 		union(){
-			translate([0,0,hauteur]) tore(diametre,rayon);
-			support_tore(diametre, rayon, hauteur);
+			translate([0,0,hauteur]) tore(diametre,rayon+diametre/2);
+			support_tore(diametre, rayon+diametre/2, hauteur);
 		}
-		translate([-sqrt(pow((rayon-diametre/2),2)-pow((rayon/4),2)),rayon/4,hauteur/2]) rotate([0,-90,0]) vis();
-		translate([-sqrt(pow((rayon-diametre/2),2)-pow((rayon/4),2)),-rayon/4,hauteur/2]) rotate([0,-90,0]) vis();
-		linear_extrude(height=2*hauteur) polygon(points=[[0,0],[rayon+diametre/2,rayon/2],[rayon+diametre/2,-rayon/2]], paths=[[0,1,2]]);
+		translate([-sqrt(pow((rayon),2)-pow((rayon/4),2)),rayon/4,hauteur/2]) rotate([0,-90,0]) vis();
+		translate([-sqrt(pow((rayon),2)-pow((rayon/4),2)),-rayon/4,hauteur/2]) rotate([0,-90,0]) vis();
+		linear_extrude(height=2*hauteur) polygon(points=[[0,0],[rayon+diametre,rayon/2],[rayon+diametre,-rayon/2]], paths=[[0,1,2]]);
 	}
-	rotate([0,0,atan((rayon/2)/(rayon+diametre/2))]) translate([rayon, 0, hauteur]) sphere (diametre/2, $fn=detail);
-	rotate([0,0,-atan((rayon/2)/(rayon+diametre/2))]) translate([rayon, 0, hauteur]) sphere (diametre/2, $fn=detail);
+	rotate([0,0,atan((rayon/2)/(rayon+diametre))]) translate([rayon+diametre/2, 0, hauteur]) sphere (diametre/2, $fn=detail);
+	rotate([0,0,-atan((rayon/2)/(rayon+diametre))]) translate([rayon+diametre/2, 0, hauteur]) sphere (diametre/2, $fn=detail);
 }
 
 
