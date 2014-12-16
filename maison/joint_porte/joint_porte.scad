@@ -76,7 +76,7 @@ module partie3(){
 
 module partie4(){
 	difference(){
-	translate([0,-3*longueur_max,0]) barre_complete();
+	translate([0,-4*longueur_max,0]) barre_complete();
 	translate([0,largeur_porte/2,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
 	translate([0,-largeur_porte/2-longueur_max,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
 	}
@@ -84,24 +84,17 @@ module partie4(){
 
 module partie5(){
 	difference(){
-	translate([0,-4*longueur_max,0]) barre_complete();
-	translate([0,largeur_porte/2,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
-	translate([0,-largeur_porte/2-longueur_max,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
-	}
-}
-
-module partie6(){
-	difference(){
 	translate([0,-5*longueur_max,0]) barre_complete();
 	translate([0,largeur_porte/2,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
 	translate([0,-largeur_porte/2-longueur_max,0])cube([largeur_porte,largeur_porte,largeur_porte], center=true);
 	}
 }
 
+
+
 //barre_complete();
 //partie1();
 //translate([100,0,0]) partie2();
 //translate([200,0,0]) partie3();
 //translate([300,0,0]) partie4();
-//translate([400,0,0]) partie5();
-translate([500,0,0]) partie6();
+translate([400,0,0]) partie5();
