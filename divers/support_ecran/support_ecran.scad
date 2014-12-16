@@ -35,7 +35,7 @@ largeur_max_tige = 12.8;
 largeur_min_tige = 6;
 separation_accroche = 4;
 longueur_accroche = cran_longueur_3-separation_accroche;
-largeur_accroche = 1*largeur_max_tige;
+largeur_accroche = 1.4*largeur_max_tige;
 hauteur_accroche = 20;
 
 module socle_etape1(longueur, largeur, hauteur, radius){
@@ -174,7 +174,7 @@ module tige(){
 
 module crochet(){
 	rotate([0,-90,0])
-	linear_extrude(height=longueur_encoche-2*marge, center=true, convexity = 10, twist = 0, scale=[1.05,1.43]) 
+	linear_extrude(height=longueur_encoche-2*marge, center=true, convexity = 10, twist = 0) 
 			polygon(points=[
 				[0,0],
 				[0,hauteur_encoche],
@@ -196,5 +196,5 @@ module support_complet(){
 	
 }
 
-//tige();
-support_complet();
+tige();
+//support_complet();
