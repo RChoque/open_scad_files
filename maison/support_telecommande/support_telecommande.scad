@@ -1,4 +1,9 @@
-
+largeur_telecommande_tv = 48.5;
+epaisseur_telecommande_tv = 24;
+largeur_telecommande_freebox = 38.8;
+epaisseur_telecommande_freebox = 17.5;
+largeur_telecommande_ampli = 50;
+epaisseur_telecommande_ampli = 18.8;
 hauteur_support = 40;
 hauteur_totale_support = 60;
 epaisseur_support = 2;
@@ -73,24 +78,42 @@ module step3(largeur_telecommande, epaisseur_telecommande){
 }
 
 module telecommande_freebox(){
-	largeur_telecommande = 38.5;
-	epaisseur_telecommande = 17.5
-;
+	largeur_telecommande = largeur_telecommande_freebox;
+	epaisseur_telecommande = epaisseur_telecommande_freebox;
 	step3(largeur_telecommande, epaisseur_telecommande);
 }
 
 module telecommande_ampli(){
-	largeur_telecommande = 30;
-	epaisseur_telecommande = 10;
+	largeur_telecommande = largeur_telecommande_ampli;
+	epaisseur_telecommande = epaisseur_telecommande_ampli;
 	step3(largeur_telecommande, epaisseur_telecommande);
 }
 
 module telecommande_tv(){
-	largeur_telecommande = 48;
-	epaisseur_telecommande = 24;
+	largeur_telecommande = largeur_telecommande_tv;
+	epaisseur_telecommande = epaisseur_telecommande_tv;
 	step3(largeur_telecommande, epaisseur_telecommande);
 }
 
-telecommande_freebox();
+module telecommande_groupees(){
+	position_x_freebox = 0;
+	position_y_freebox = epaisseur_telecommande_freebox/2;
+	position_x_ampli = largeur_telecommande_freebox/2+largeur_telecommande_ampli/2+epaisseur_support+2*epaisseur_minkowski;
+	position_y_ampli = epaisseur_telecommande_ampli/2;
+	position_x_tv = position_x_ampli+largeur_telecommande_ampli/2+largeur_telecommande_tv/2+epaisseur_support+2*epaisseur_minkowski;
+	position_y_tv = epaisseur_telecommande_tv/2;
+	longueur_totale = largeur_telecommande_freebox+largeur_telecommande_ampli+largeur_telecommande_tv+6*epaisseur_minkowski+4*epaisseur_support;
+	difference(){
+		union(){
+			translate([position_x_freebox,position_y_freebox,0]) color("red") telecommande_freebox();
+			translate([position_x_ampli,position_y_ampli,0]) color("green") telecommande_ampli();
+			translate([position_x_tv,position_y_tv,0]) color("blue") telecommande_tv();
+		}
+		translate([-(largeur_telecommande_freebox/2+epaisseur_support+epaisseur_minkowski),-epaisseur_support,hauteur_totale_support/2-(hauteur_totale_support-hauteur_support)]) cube([longueur_totale+1, 2*epaisseur_support, hauteur_totale_support-hauteur_support+epaisseur_minkowski]);
+	}
+
+}
+
+telecommande_groupees();
 
 
