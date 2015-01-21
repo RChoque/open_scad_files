@@ -35,7 +35,7 @@ largeur_max_tige = 12.8;
 largeur_min_tige = 6;
 separation_accroche = 4;
 longueur_accroche = cran_longueur_3-separation_accroche;
-largeur_accroche = 1.4*largeur_max_tige;
+largeur_accroche = 1.21*largeur_max_tige;
 hauteur_accroche = 20;
 
 module socle_etape1(longueur, largeur, hauteur, radius){
@@ -129,7 +129,13 @@ module fixation_haut(){
 	translate([-(longueur_fixation-longueur_cran)/2,position_espace_2_y,position_creux_z]) cube([longueur_cran,espace_largeur_2_3-2*marge,profondeur_fixation-marge], center = true);
 
 	rotate([0,0,0]) translate([0,0,hauteur_fixation-profondeur_fixation]) tige();
-	cube([longueur_accroche, largeur_accroche, hauteur_accroche], center = true);
+}
+
+module bouton(){
+	minkowski(){
+		rotate([90,0,0]) cylinder(h=largeur_socle+5, r=1, $fn=detail, center=true);
+		sphere (radius, $fn=detail);
+	}
 }
 
 module tige(){
@@ -151,24 +157,34 @@ module tige(){
 						], paths=[[0,1,2,3,4,5]]);
 					sphere (radius, $fn=detail);
 				}
+				translate([0,0,(espace_encoche_y/2+2*hauteur_encoche)])
+				linear_extrude(height=(espace_encoche_y+2*hauteur_encoche), center=true, convexity = 10, twist = 0, scale=[1.05,1.4]) 
+				polygon(points=[
+					[(longueur_max_tige/2-epaisseur_socle/1.9),(largeur_min_tige-epaisseur_socle/1.9)],
+					[-(longueur_max_tige/2-epaisseur_socle/1.9),(largeur_min_tige-epaisseur_socle/1.9)],
+					[-(longueur_max_tige/2-epaisseur_socle/1.9),0],
+					[-(longueur_min_tige/2-epaisseur_socle/1.9),-(largeur_max_tige-largeur_min_tige-epaisseur_socle/1.9)],
+					[(longueur_min_tige/2-epaisseur_socle/1.9),-(largeur_max_tige-largeur_min_tige-epaisseur_socle/1.9)],
+					[(longueur_max_tige/2-epaisseur_socle/1.9),0]
+				], paths=[[0,1,2,3,4,5]]);
+
 				translate([0,0,(30.8+hauteur_fixation-radius)/2]) cube([2*longueur_max_tige, 2*largeur_max_tige, radius], center = true);
 				translate([0,0,-(30.8+hauteur_fixation-radius)/2]) cube([2*longueur_max_tige, 2*largeur_max_tige, radius], center = true);
-				translate([cran_longueur_3/2-1, 0,-(espace_encoche_y+2*hauteur_encoche-(30.8+hauteur_fixation-radius))/2]) cube([2,largeur_max_tige+2*marge,espace_encoche_y+2*hauteur_encoche], center = true);
-				translate([1-cran_longueur_3/2, 0,-(espace_encoche_y+2*hauteur_encoche-(30.8+hauteur_fixation-radius))/2]) cube([2,largeur_max_tige+2*marge,espace_encoche_y+2*hauteur_encoche], center = true);
+				translate([cran_longueur_3/2-1, 0,-(espace_encoche_y+2*hauteur_encoche-(30.8+hauteur_fixation-radius))/2]) cube([2,largeur_accroche+1+2*marge,espace_encoche_y+2*hauteur_encoche], center = true);
+				translate([1-cran_longueur_3/2, 0,-(espace_encoche_y+2*hauteur_encoche-(30.8+hauteur_fixation-radius))/2]) cube([2,largeur_accroche+1+2*marge,espace_encoche_y+2*hauteur_encoche], center = true);
 			}
 
 			translate([position_crochet_x+marge,largeur_max_tige/2,espace_encoche_y+marge]) color("pink") crochet();
 			translate([-position_crochet_x+marge,largeur_max_tige/2,espace_encoche_y+marge]) color("pink") crochet();	
 			translate([position_crochet_x+marge,-largeur_max_tige/2,espace_encoche_y+marge]) rotate([0,0,180]) color("pink") crochet();
 			translate([-position_crochet_x+marge,-largeur_max_tige/2,espace_encoche_y+marge]) rotate([0,0,180]) color("pink") crochet();
-			translate([0,0,-hauteur_accroche/2]) cube([longueur_accroche, largeur_accroche, hauteur_accroche], center = true);
-			translate([0,0,2*(radius+1)-hauteur_accroche])
-			minkowski(){
-				rotate([90,0,0]) cylinder(h=largeur_socle+5, r=1, $fn=detail, center=true);
-				sphere (radius, $fn=detail);
-			}
+			translate([0,0.2,-hauteur_accroche/2]) 
+				cube([longueur_accroche, largeur_accroche, hauteur_accroche], center = true);
+			translate([0,0,2*(radius+1)-hauteur_accroche]) bouton();
 		}
-		translate([0,0,-hauteur_accroche/2+espace_encoche_y/2+hauteur_encoche]) cube([longueur_accroche+2*marge, largeur_accroche-epaisseur_socle, hauteur_accroche+espace_encoche_y+2*hauteur_encoche], center = true);			
+		translate([0,0.2,-hauteur_accroche/2]) 
+			cube([longueur_accroche+2*marge, largeur_accroche-epaisseur_socle, hauteur_accroche+1], center = true);			
+		
 	}	
 }
 
@@ -196,5 +212,4 @@ module support_complet(){
 	
 }
 
-tige();
-//support_complet();
+support_complet();
