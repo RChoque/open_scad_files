@@ -26,10 +26,10 @@ module biseau_droit(){
 module biseau_gauche(){
 	em = epaisseur_minkowski;
 	largeur = epaisseur_crochet/4;
-	translate([-em,1.2,0])
+	translate([0.1,1.2,0])
 	rotate([-13,0,0])
 	linear_extrude(height=16) polygon(points=[[0,0],[0,largeur],[-largeur,0]],paths=[ [0,1,2] ]);
-	translate([-em,4.7,14.5])
+	translate([0.1,4.7,14.5])
 	rotate([3,0,0])
 	linear_extrude(height=40) polygon(points=[[0,0],[0,largeur],[-largeur,0]],paths=[ [0,1,2] ]);
 }
@@ -82,7 +82,7 @@ module vis(diam_tete, diam_tige){
 module guitar_hero(){
 	position_y_crochet = epaisseur_plaque-1;
 	largeur_plaque = 5*epaisseur_crochet + 2*espace_entre_crochet;
-	position_x_vis1 = position_x_crochet1+espace_entre_crochet/2;
+	position_x_vis1 = epaisseur_crochet-epaisseur_minkowski+epaisseur_crochet+espace_entre_crochet/2;
 	position_x_vis2 = position_x_vis1+epaisseur_crochet+espace_entre_crochet;
 	difference(){
 		union(){
@@ -95,9 +95,8 @@ module guitar_hero(){
 		}
 		translate([position_x_vis1,40,epaisseur_plaque]) rotate([180,0,0]) vis(4,2);
 		translate([position_x_vis2,40,epaisseur_plaque]) rotate([180,0,0]) vis(4,2);
-		translate([-3*epaisseur_minkowski,-3*epaisseur_minkowski,-(epaisseur_plaque+3*epaisseur_minkowski)]) cube([largeur_plaque+6*epaisseur_minkowski, longueur_plaque+6*epaisseur_minkowski, epaisseur_plaque+3*epaisseur_minkowski]);
+		translate([-3*epaisseur_minkowski-1,-3*epaisseur_minkowski,-(epaisseur_plaque+3*epaisseur_minkowski)]) cube([largeur_plaque+6*epaisseur_minkowski+2, longueur_plaque+6*epaisseur_minkowski, epaisseur_plaque+3*epaisseur_minkowski]);
 	}
-	translate([position_x_vis2,40,(epaisseur_plaque-2*epaisseur_minkowski)/2]) rotate([180,0,0]) color("red") vis();
 }
 
 guitar_hero();
