@@ -114,6 +114,9 @@ module telecommande_groupees(){
 
 }
 
-telecommande_groupees();
+//telecommande_groupees();
+//telecommande_freebox();
+//telecommande_ampli();
+telecommande_tv();
 
 
