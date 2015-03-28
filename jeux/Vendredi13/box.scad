@@ -22,9 +22,9 @@ module triangle_decoupe(longueur, largeur, hauteur){
 	translate([-largeur/2,0,hauteur/2])rotate([-90,0,0]) linear_extrude(height=longueur, center=true) polygon(points=[[0,0],[largeur,0],[largeur/2,hauteur]], paths=[[0,1,2]]);
 }
 
-module bloc_verrou(longueur_carte, largeur_carte, epaisseur){
-	translate([0,-largeur_carte/2-epaisseur+marge,0]) verrou(epaisseur);
-	translate([0,largeur_carte/2+epaisseur-marge,0]) rotate([0,0,180])verrou(epaisseur);
+module bloc_verrou(largeur, epaisseur){
+	translate([0,-largeur/2,0]) verrou(epaisseur);
+	translate([0,largeur/2,0]) rotate([0,0,180])verrou(epaisseur);
 }
 
 module verrou(epaisseur){
@@ -35,16 +35,16 @@ module verrou(epaisseur){
 module base(){
 	cube([longueur_plaque, largeur_plaque, epaisseur], center=true);
 	translate([0,0,(hauteur_cartes+epaisseur)/2])bloc_carte(longueur_carte+2*marge, largeur_carte+2*marge, hauteur_cartes, epaisseur);	
-	bloc_verrou(longueur_carte+2*marge, largeur_carte+2*marge, epaisseur);
+	bloc_verrou(largeur_plaque-2*epaisseur, epaisseur);
 }
 
 module couvercle(){
 	difference(){
 		cube([longueur_plaque, largeur_plaque, hauteur_cartes+epaisseur+marge], center=true);
 		translate([0,0,epaisseur/2]) cube([longueur_plaque-2*epaisseur, largeur_plaque-2*epaisseur, hauteur_cartes+manifold+marge], center=true);
-		translate([0,0,(hauteur_cartes+epaisseur+marge)/2]) rotate([0,180,0]) bloc_verrou(longueur_carte, largeur_carte, epaisseur);
+		translate([0,0,(hauteur_cartes+epaisseur+marge)/2]) rotate([0,180,0]) bloc_verrou(largeur_plaque-2*epaisseur, epaisseur);
 	}
 }
 
 translate([0,0,hauteur_cartes/2]) rotate([0, 180, 0]) translate([0,-largeur_carte,0]) color("blue") base();
-//translate([0,+largeur_carte,0]) couvercle();
+translate([0,+largeur_carte,0]) couvercle();
