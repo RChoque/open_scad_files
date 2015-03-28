@@ -1,6 +1,6 @@
 epaisseur_minkowski = 2;
 epaisseur = 2;
-detail = 10;
+detail = 20;
 //Size of Heart shape  - long edge
 Size=25;
 //Height of Heart
@@ -10,6 +10,8 @@ Cut = 2*epaisseur_minkowski+1;
 //Hole size
 Hole=2;
 
+longueur_cle = 3*Size;
+diametre_tige = Height+2*epaisseur_minkowski;
 
 
 module heart(size,height,hole) {
@@ -57,8 +59,9 @@ module hollow_split_heart(){
   N= 181;
   Step = Size * sqrt(2)/N;
   c=coefficients(7,Size/6);
-  
+ echo(Step);
   cut_path = path(N,Step,c);
+echo(cut_path);
 
   difference(){
     difference(){
@@ -77,31 +80,49 @@ module hollow_split_heart(){
 }
 
 module tige(){
-  diametre = Height+2*epaisseur_minkowski;
   difference(){
-    rotate([0,-90,0]) cylinder(h=3*Size, r=diametre/2, $fn=detail);
-    translate([0.1-diametre,diametre/2,0])
-    linear_extrude(height=diametre, center=true, convexity = 0, twist = 0) 
+    rotate([0,-90,0]) cylinder(h=longueur_cle, r=diametre_tige/2, $fn=detail);
+    translate([0.1-diametre_tige,diametre_tige/2,0])
+    linear_extrude(height=diametre_tige, center=true, convexity = 0, twist = 0) 
         polygon(points=[
           [0,0],
-          [diametre,0],
-          [diametre,-diametre],
+          [diametre_tige,0],
+          [diametre_tige,-diametre_tige],
           ], paths=[[0,1,2]]);
   }
   translate([-3*Size,0,0])
-  sphere (diametre/2, $fn=detail);
-  
+  sphere (diametre_tige/2, $fn=detail);
 }
 
-translate ([0,0,-Height/2])
+module alex(){
+	rotate([180,0,0])
+	linear_extrude(height = Height)
+	scale([0.1, 0.4])
+	import("alex.dxf");
+}
+
+module cinde(){
+	linear_extrude(height = Height)
+	scale([0.1, 0.4])
+	import("cinde.dxf");
+}
+
+position_tige_y = Height+2*epaisseur_minkowski;
+position_x = position_tige_y/2*tan(45);
+translate ([-position_x,0,-Height/2])
 rotate([0,0,-45]) 
 rounded_hollow_split_heart();
-translate ([(Height+2*epaisseur_minkowski),-(Height+2*epaisseur_minkowski),0])
+translate ([(Height+2*epaisseur_minkowski),-position_tige_y,0])
 color("red")
 tige();
-translate ([(Height+2*epaisseur_minkowski),(Height+2*epaisseur_minkowski),0])
+translate ([(Height+2*epaisseur_minkowski),position_tige_y,0])
 rotate([180,0,0])
 color("blue")
 tige();
+
+translate ([diametre_tige/2+position_x-longueur_cle,-3*(Height+2*epaisseur_minkowski)/2+1,Height/2])
+alex();
+translate ([diametre_tige/2+position_x-longueur_cle,3*(Height+2*epaisseur_minkowski)/2-1,-Height/2])
+cinde();
 
 
