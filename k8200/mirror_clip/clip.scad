@@ -1,5 +1,5 @@
 epaisseur_mirroir = 3.9;
-epaisseur_carton = 1;
+epaisseur_carton = 1.5;
 epaisseur_chauf = 1.7;
 epaisseur_metal = 2.5;
 epaisseur_clip = 2;
@@ -7,9 +7,9 @@ epaisseur_clip = 2;
 longueur_mirroir = 200;
 longueur_carton = 210;
 longueur_chauf = 208.5;
-longueur_metal = 220;
+longueur_metal = 217;
 largeur_metal = 10.5;
-longueur_clip = longueur_metal/4;
+longueur_clip = longueur_metal/5;
 distance_min_clip = 30;
 
 module plateau(){
