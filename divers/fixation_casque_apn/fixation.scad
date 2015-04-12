@@ -21,7 +21,7 @@ epaisseur_apn = 21.5;
 detail = 25;
 profondeur_vis = 6;
 
-largeur_crochet = 20;
+largeur_crochet = 16;
 
 module fixation(){
 	position_z_accroche = (diametre_accroche/2) - (epaisseur_socle/2) - depassement_z_accroche;

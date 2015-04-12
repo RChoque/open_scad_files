@@ -35,6 +35,25 @@ module calibration_base(longueur,largeur,hauteur){
 }
 
 module calibration_1(longueur,largeur,hauteur){
+	translate([0,0,hauteur/2]) hollow_cube(longueur,largeur,hauteur,epaisseur);
+	// hypotenuse = ceil(sqrt(pow((longueur-2*epaisseur),2) + pow((largeur-2*epaisseur),2)));
+	// epaisseur_hypo = epaisseur;	
+	// hauteur_diag = 5;
+
+	// angleZ = atan(largeur/longueur);
+	// union(){
+	// 	translate([0,0,hauteur_diag/2]) rotate([0,0,angleZ]) cube([hypotenuse,epaisseur_hypo,hauteur_diag],center = true);
+	// 	translate([0,0,hauteur_diag/2]) rotate([0,0,-angleZ]) cube([hypotenuse,epaisseur_hypo,hauteur_diag],center = true);
+	// 	translate([0,0,hauteur_diag/2]) rotate([0,0,0]) cube([longueur,epaisseur_hypo,hauteur_diag],center = true);
+	// 	translate([0,0,hauteur_diag/2]) rotate([0,0,90]) cube([largeur,epaisseur_hypo,hauteur_diag],center = true);
+
+	// 	translate([0,0,hauteur-hauteur_diag/2]) rotate([0,0,90]) cube([largeur,epaisseur_hypo,hauteur_diag],center = true);
+	// 	translate([0,(largeur-hauteur_diag)/2,hauteur/2]) rotate([0,90,90]) cube([hauteur,epaisseur_hypo,hauteur_diag],center = true);
+	// 	translate([0,-(largeur-hauteur_diag)/2,hauteur/2]) rotate([0,90,90]) cube([hauteur,epaisseur_hypo,hauteur_diag],center = true);
+	// }
+}
+
+module calibration_2(longueur,largeur,hauteur){
 	calibration_base(longueur,largeur,hauteur);
 	hypotenuse = ceil(sqrt(pow((longueur-longueur_col),2) + pow((largeur-largeur_col),2)));
 	epaisseur_hypo = sqrt(pow((longueur_col-2*epaisseur),2) + pow((largeur_col-2*epaisseur),2));
@@ -53,7 +72,7 @@ module calibration_1(longueur,largeur,hauteur){
 	}
 }
 
-module calibration_2(longueur,largeur,hauteur){
+module calibration_3(longueur,largeur,hauteur){
 	calibration_base(longueur,largeur,hauteur);
 	difference(){
 		translate([0,0,-(hauteur-epaisseur)/2]) cube([longueur,largeur,epaisseur], center=true);
@@ -63,6 +82,6 @@ module calibration_2(longueur,largeur,hauteur){
 	}
 }
 
-//calibration_1(30,30,10);
+calibration_1(20,10,50);
 
-calibration_2(30,30,10);
+//calibration_2(30,30,10);
