@@ -1,18 +1,18 @@
 angle = 60;
-hauteur_totem = 100;
 echelle_totem = 0.5;
-largeur_totem = echelle_totem*88;
+hauteur_totem = echelle_totem*200;
+largeur_totem = echelle_totem*63;
 longueur_totem = echelle_totem*176;
 profondeur_creux = 2;
-echelle_sqli = 0.75;
+echelle_sqli = echelle_totem*1.5;
 hauteur_sqli = echelle_sqli*13;
 largeur_sqli = echelle_sqli*201;
 hauteur_chapeau = 20;
-rayon_chapeau = longueur_totem/2.5;
+rayon_chapeau = longueur_totem/2.4;
 
 epaisseur = 2;
 
-detail = 20;
+detail = 50;
 
 
 module biseau(){
@@ -32,7 +32,7 @@ module totem_creux(){
 		translate([0,0,hauteur_totem/2]) 
 	    linear_extrude(height=hauteur_totem, center=true, convexity=0) 
 	    	scale(echelle_totem) 
-	    	import("logo_tsg_hollow_perspective.dxf");
+	    	import("logo_tsg_hollow_60.dxf");
 		translate([-1,-1,hauteur_totem+0.1]) 
 			biseau();
 	}
@@ -42,17 +42,17 @@ module totem_plein(){
 	hauteur = hauteur_totem-profondeur_creux;
     translate([-longueur_totem/2,0,0])
 	difference(){
-		translate([-0.15,-0.25,hauteur/2]) 
+		translate([0,0,hauteur/2]) 
 	    linear_extrude(height=hauteur, center=true, convexity=0) 
 	    	scale(echelle_totem) 
-	    	import("logo_tsg_plein_perspective.dxf");
+	    	import("logo_tsg_plein_60.dxf");
 		translate([-1,-1,hauteur+0.1]) 
 			biseau();
 	}
 }
 
 module sqli(){
-    translate([-largeur_sqli/2,-8,0])
+    translate([-largeur_sqli/2,-largeur_totem/1.7,-hauteur_sqli/2])
 	rotate([angle,0,0]) 
     linear_extrude(height=hauteur_sqli, center=true, convexity=0) 
 	    	scale(echelle_sqli) 
@@ -81,8 +81,30 @@ module chapeau(){
     }
     
 }
-translate([0,38,hauteur_totem+2])
-rotate([-(90-angle),0,0]) chapeau();
-color("green") sqli();
-color("red") totem_creux();
-color("blue") totem_plein();
+
+module partie_1(){
+	difference(){
+		union(){
+            color("green") sqli();
+			color("red") totem_creux();
+			color("blue") totem_plein();
+		}
+		translate([0,28,hauteur_totem+2])
+		rotate([-(90-angle),0,0])       chapeau();
+        translate([0,0,-10])
+        cube([200,200,20], center=true);
+	}
+}
+
+module partie_2(){
+	rotate([180,0,0]) chapeau();
+}
+
+module complet(){
+	partie_1();
+	translate([0,28,hauteur_totem+2])
+	rotate([-(90-angle),0,0]) chapeau();
+}
+
+complet();
+
