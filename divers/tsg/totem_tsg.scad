@@ -106,5 +106,32 @@ module complet(){
 	rotate([-(90-angle),0,0]) chapeau();
 }
 
-complet();
+module partie_1bis(){
+    partie_1();
+    difference(){
+	    union(){
+	    	translate([longueur_totem/2-5,0,-5])
+	    	rotate([0,0,63])
+	    	rotate([(90-angle),0,0])
+	    	cube([0.75, 50, 50],center=true);
+	    	translate([-longueur_totem/2+5,0,-5])
+	    	rotate([0,0,-63])
+	    	rotate([(90-angle),0,0])
+	    	cube([0.75, 60, 50],center=true);
+	    }
+	    translate([0,0,-25])
+	        cube([200,200,50], center=true);
+	}
+    difference(){
+    translate([0,59.5,121])
+	rotate([-(90-angle),0,0])
+    rotate([0,45,0])
+	cube([100, 0.75, 100],center=true);
+        translate([0,0,158])
+	        cube([200,200,70], center=true);
+    }
+    
+}
+
+partie_1bis();
 
