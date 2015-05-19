@@ -25,6 +25,7 @@ nb_jetons = 6;
 epaisseur_carte = 2.4;
 espace = 5;
 marge = 0.5;
+detail = 100;
 
 
 module plateau(longueur, largeur, epaisseur){
@@ -143,7 +144,7 @@ module rangement2(){
 	}
 }
 
-rangement2();
+rangement1();
 
 
 		
