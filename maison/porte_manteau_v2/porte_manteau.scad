@@ -52,25 +52,30 @@ module crochet_complet(){
 module crochet_plat_complet(){
 	difference(){
 		translate([-longueur_crochet, (largeur_crochet+marge)/2, -(base_basse+base_haute+epaisseur_crochet)]) rotate([90,0,0]) crochet_plat(marge);
-		translate([2*hauteur_crochet-(hauteur_bloc-largeur_crochet+marge+epaisseur_crochet)/2, 0, -epaisseur_crochet-0.1]) color("purple") vis();
+		translate([epaisseur_crochet+2*hauteur_crochet-(hauteur_bloc-largeur_crochet+marge+epaisseur_crochet)/2, 0, -epaisseur_crochet-0.1]) color("purple") vis();
 	}
 }
 
 module crochet_meuble_complet(){
 	difference(){
 		translate([-longueur_crochet, (largeur_crochet+marge)/2, -(base_basse+base_haute+epaisseur_crochet)]) rotate([90,0,0]) crochet_meuble(marge);
-		translate([2*hauteur_crochet-(hauteur_bloc-largeur_crochet+marge+epaisseur_crochet)/2, 0, -epaisseur_crochet-0.1]) color("purple") vis();
+		translate([epaisseur_crochet+2*hauteur_crochet-(hauteur_bloc-largeur_crochet+marge+epaisseur_crochet)/2, 0, -epaisseur_crochet-0.1]) color("purple") vis();
 		translate([-longueur_crochet-0.1, 0, -(epaisseur_crochet+base_basse/2)]) rotate([0,90,0]) color("purple") vis();
 	}
 }
 
-color("yellow") bloc1_complet();
-translate([0,longueur_bloc,0]) color("blue") bloc2_complet();
-translate([0,2*longueur_bloc,0]) color("red") bloc2_complet();
-translate([0,3*longueur_bloc,0]) color("green") bloc3_complet();
-translate([0,0,-epaisseur_bloc/2]) color("grey") crochet_complet();
-translate([0,3*longueur_bloc,-epaisseur_bloc/2]) color("grey") crochet_complet();
+// color("yellow") bloc1_complet();
+// translate([0,longueur_bloc,0]) color("blue") bloc2_complet();
+// translate([0,2*longueur_bloc,0]) color("red") bloc2_complet();
+// translate([0,3*longueur_bloc,0]) color("green") bloc3_complet();
+// translate([0,0,-epaisseur_bloc/2]) color("grey") crochet_complet();
+// translate([0,3*longueur_bloc,-epaisseur_bloc/2]) color("grey") crochet_complet();
 
-
-
-
+crochet_meuble_v1();
+module crochet_meuble_v1(){
+    difference(){
+        crochet_meuble_complet();
+    translate([epaisseur_crochet-largeur_crochet-hauteur_crochet,-largeur_crochet/2,0])
+    cube([10,largeur_crochet+2*marge,hauteur_crochet+2*marge]);
+	}
+}

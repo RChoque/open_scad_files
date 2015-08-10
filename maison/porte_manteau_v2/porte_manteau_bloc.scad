@@ -38,4 +38,3 @@ module double_accroche(marge){
 }
 
 
-

@@ -79,5 +79,3 @@ echo(a);
 				cylinder (r1=marge+5, r2=marge+3, h=marge+4, $fn=100);
 	}
 }
-
-tige_principale(0.5);
