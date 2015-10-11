@@ -78,7 +78,7 @@ module support(){
         prisme(hauteur_arc);
         translate([0,rayon,0])
         rotate([0,90,0])
-        tube(2*diametre,diametre+epaisseur/2,largeur_casque+1);
+        tube(2*diametre,diametre+epaisseur/2,largeur_casque+2*epaisseur);
     }
 }
 
