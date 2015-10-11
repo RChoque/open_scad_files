@@ -1,10 +1,10 @@
 detail = 100;
-longueur = 150;
+longueur = 170;
 largeur = 50;
 hauteur = 100;
 largeur_encoche = 4;
 largeur_bordure = 4;
-largeur_rainure = 10;
+largeur_rainure = 15;
 profondeur_encoche = 8;
 epaisseur = 2;
 
