@@ -1,8 +1,8 @@
 detail = 100;
 diametre_roulement = 22;
-hauteur_couche = 4;
+hauteur_couche = 3;
 hauteur_roulement = 7;
-couches = [[30,0],[25,1],[20,2],[15,3]];
+couches = [[30,0],[26.5,1],[25.75,2],[20,3],[15,4]];
 
 
 module 608zz(){
@@ -28,7 +28,7 @@ module cross(longueur, largeur, hauteur){
         }
     }
         
-    cylinder(h=hauteur, r=couches[3][0], $fn=detail/2);
+    cylinder(h=hauteur, r=couches[4][0], $fn=detail/2);
 }
 
 module rounded_cross(longueur, largeur, hauteur){
@@ -41,7 +41,7 @@ module rounded_cross(longueur, largeur, hauteur){
 module pyramid(){
     for(i = couches){
         echo(i[0]);
-        translate([0,0, i[1]*4]) cross(i[0],17,4);
+        translate([0,0, i[1]*hauteur_couche]) cross(i[0],17,hauteur_couche);
     }
 
 }
@@ -49,9 +49,9 @@ module pyramid(){
 module support(){
     difference(){
         pyramid();
-        cylinder(h=4*hauteur_couche, d=diametre_roulement-2, $fn=detail);
+        cylinder(h=6*hauteur_couche, d=diametre_roulement-2, $fn=detail);
         608zz();
-        translate([0,0,4*hauteur_couche-hauteur_roulement]) 608zz(); 
+        translate([0,0,5*hauteur_couche-hauteur_roulement]) 608zz(); 
     }
 }
 
