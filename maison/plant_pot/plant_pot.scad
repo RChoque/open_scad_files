@@ -46,7 +46,7 @@ module motif1(){
 
 module motif2(){
     difference(){
-        translate([0,-100,160])
+        translate([-1,-100,160])
         rotate([-90,-10,90]) linear_extrude(largeur_max/2) scale(0.73) import("motif2.dxf");
         cache();    
     }
