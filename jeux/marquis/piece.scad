@@ -64,4 +64,4 @@ module piece2(){
     face2();
 }
 
-piece1();
+piece2();
