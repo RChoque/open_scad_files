@@ -47,4 +47,17 @@ translate([47,14,0])
  #color("blue")
 #cube([10,44,44]);
 }
+
+module reference2(){
+translate([248.5,-259.19,0])
+rotate([0,0,90])
+color("red")
+linear_extrude(10) 
+scale(1.46)
+import("reglette_3a.dxf");
+    translate([-22,15,0])
+#cube([44,10,44]);
+}
+
+reference2();
 reglette();
