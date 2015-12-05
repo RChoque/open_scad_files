@@ -1,6 +1,6 @@
 diametre_piece = 25.65;
-epaisseur_piece = 2.1;
-epaisseur_relief = 0.5;
+epaisseur_piece = 2.5;
+epaisseur_relief = 0.55;
 
 
 
@@ -64,4 +64,18 @@ module piece2(){
     face2();
 }
 
-piece2();
+module piece_face(){
+    hauteur = epaisseur_piece/2-epaisseur_relief;
+    cylinder (d=diametre_piece, h=hauteur+0.1, $fn=100, center=true);
+    translate([0,0,hauteur/2])
+    face1();
+}
+
+module piece_pile(){
+    hauteur = epaisseur_piece/2-epaisseur_relief;
+    cylinder (d=diametre_piece, h=hauteur+0.1, $fn=100, center=true);
+    translate([0,0,hauteur/2])
+    pile();
+}
+
+piece_face();
