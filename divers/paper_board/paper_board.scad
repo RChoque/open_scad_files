@@ -1,11 +1,11 @@
 cote_barre = 20.5+0.5;
 angle = 90-atan(7.5);
 epaisseur = 3;
-diametre_vis = 6;
+diametre_vis = 6.5;
 diametre_vis_fixation = 3.5;
-diametre_ecrou = 11.5;
-largeur_ecrou = 10;
-epaisseur_ecrou = 5;
+diametre_ecrou = 12.7;
+largeur_ecrou = 11;
+epaisseur_ecrou = 6;
 
 hauteur_bloc = 20.5;
 longueur_bloc = cote_barre+2*epaisseur;
@@ -92,4 +92,13 @@ module part1(){
     }
 }
 
+module part2(){
+    mirror(){
+        part1();
+    }
+}
+
 part1();
+translate([0,2*longueur_bloc,0])
+rotate([0,0,180])
+part2();
