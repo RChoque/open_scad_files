@@ -1,8 +1,14 @@
 epaisseur = 2;
 largeur = 85;
 hauteur = 50;
-longueur = 10;
+hauteur_max = 35;
+longueur = 190;
 largeur_fente = 44;
+largeur_fente_2 = 40.5;
+diametre_vis = 3;
+marge = (largeur-largeur_fente)/2;
+diff = hauteur - hauteur_max;
+
 
 module tube(longueur, largeur, hauteur){
     difference(){
@@ -53,11 +59,11 @@ module goulotte2(){
         cube([5, 10, longueur+1],center=true);
     }
     
-    translate([2-(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
-    cube([4,epaisseur,longueur],center=true);
+    translate([1-(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
+    cube([2,epaisseur,longueur],center=true);
     
-    translate([4.25-(largeur_fente)/2,(hauteur-8)/2-(5.5+epaisseur),0])
-    cube([epaisseur/2,5,longueur],center=true);
+    translate([-largeur_fente_2/2,(hauteur-8)/2-(6+epaisseur),0])
+    cube([epaisseur/2,4,longueur],center=true);
     
     translate([(largeur_fente+epaisseur)/2,(hauteur-5)/2-epaisseur,0])
     cube([epaisseur, 5, longueur],center=true);
@@ -69,10 +75,10 @@ module goulotte2(){
         cube([5, 10, longueur+1],center=true);
     }
     
-    translate([-2+(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
-    cube([4,epaisseur,longueur],center=true);
-    translate([-4.25+(largeur_fente)/2,(hauteur-8)/2-(5.5+epaisseur),0])
-    cube([epaisseur/2,5,longueur],center=true);
+    translate([-1+(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
+    cube([2,epaisseur,longueur],center=true);
+    translate([largeur_fente_2/2,(hauteur-8)/2-(6+epaisseur),0])
+    cube([epaisseur/2,4,longueur],center=true);
 }
 
 module cache(){
@@ -109,6 +115,88 @@ module cache(){
     cube([epaisseur/2, 3, longueur],center=true);
 }
 
+module reglette_percee(){
+    nb_trous = 6;
+    increment = longueur/nb_trous;
+    start_position = (increment-longueur)/2;
+    end_position = longueur/2;
+    
+    
+    difference(){
+        reglette();
+        for(position =[start_position : increment : end_position]){
+        translate([marge-(largeur-diametre_vis)/2,-(hauteur-epaisseur)/2, position])
+        rotate([90,0,0])
+        #cylinder(d=diametre_vis, h=2*epaisseur, $fn=100, center=true);
+            translate([-marge+(largeur-diametre_vis)/2,-(hauteur-epaisseur)/2, position])
+        rotate([90,0,0])
+        #cylinder(d=diametre_vis, h=2*epaisseur, $fn=100, center=true);
+        }
+     
+        translate([0,-(hauteur-epaisseur)/2, longueur/4])
+        rainure();
+     
+        translate([0,-(hauteur-epaisseur)/2, -longueur/4])
+        rainure();
+    }
+    
+}
+
+module rainure(){
+    hauteur_rainure = longueur/2.5-marge;
+    #cube([marge, 2*epaisseur, hauteur_rainure],center = true);
+            translate([0,0,hauteur_rainure/2])
+        rotate([90,0,0])
+        #cylinder(d=marge, h=2*epaisseur, $fn=100, center=true);
+         
+            translate([0,0,-hauteur_rainure/2])
+        rotate([90,0,0])
+        #cylinder(d=marge, h=2*epaisseur, $fn=100, center=true);
+}
+
+module extremite(){
+    
+    difference(){
+        union(){
+            cube([largeur, hauteur_max, diff], center=true);
+            translate([0,hauteur_max/2,diff/2])
+            rotate([0,90,0])
+            cylinder(r=diff, h=largeur, $fn=100, center=true);
+        }
+        translate([0,epaisseur/2,epaisseur])
+        cube([largeur-2*epaisseur, hauteur_max-epaisseur, diff], center=true);
+        translate([0,hauteur_max/2,diff/2])
+            rotate([0,90,0])
+            cylinder(r=diff-epaisseur, h=largeur-2*epaisseur, $fn=100, center=true);
+        translate([0,diff/2,diff])
+        cube([largeur, hauteur, diff], center=true);
+    }
+}
+
+module reglette_extremite(){
+    translate([0,-diff/2,-(diff+longueur)/2])
+    extremite();
+    reglette_percee();
+    translate([3+marge,hauteur/2-diff,-longueur/2])
+    color("red")support_complement();
+    translate([-(3+marge),hauteur/2-diff,-longueur/2])
+    color("red")support_complement();
+}
+
+module support_complement(){
+    rayon = diff-epaisseur;
+    difference(){
+        rotate([0,90,0])
+        cylinder(r=rayon, h=7, $fn=100, center=true);
+        translate([0,0,rayon/2])
+        cube([8,2*rayon,rayon],center=true);
+        translate([0,-rayon/2,-rayon/2])
+        cube([8,rayon+1,rayon+1],center=true);
+    }
+    translate([0,-0.5,-rayon/2])
+    cube([7, 2, rayon],center=true);
+}
+
 module reference(){
 color("red")
 linear_extrude(10) 
@@ -141,6 +229,5 @@ import("reglette_3b.dxf");
 //    #cube([44,10,44]);
 }
 
-
-//reglette();
-cache();
+reglette_extremite();
+//cache();
