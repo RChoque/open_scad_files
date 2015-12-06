@@ -1,14 +1,14 @@
 largeur_photo = 100;
 longueur_photo = 150;
 epaisseur_photo = 2;
-epaisseur_vitre = 2;
-epaisseur = 2;
+epaisseur_vitre = 1.75;
+epaisseur = 1.5;
 epaisseur_totale = 2*epaisseur+epaisseur_vitre+epaisseur_photo;
 rayon_carousel = largeur_photo+epaisseur_totale;
 hauteur_marche = 5;
 nb_marches = 4;
 hauteur_chapiteau = 50;
-hauteur_hexagone = (sqrt(3)/2)*rayon_carousel;
+hauteur_hexagone = (sqrt(3)/2)*(largeur_photo+2*epaisseur);
 diametre_axe = 36;
 largeur_fixation_rondelle = 10;
 diametre_rondelle = diametre_axe + 2*epaisseur + 2*largeur_fixation_rondelle;
@@ -37,19 +37,25 @@ module triangle_isocele(base, hauteur, epaisseur){
 
 module socle(){
     difference(){
+        translate([0,0,-hauteur_marche/2])
 		for(couche =[0 : 1 : nb_marches-1]){
 			translate([0,0,-couche*hauteur_marche])
 	    	cylinder(r=rayon_carousel+couche*hauteur_marche, h=hauteur_marche, $fn=detail, center=true);
 	    }
-		//translate([0,0,epaisseur-nb_marches*hauteur_marche])
-    	axe();
+		#axe();
     }
 }
 
 module axe(){
     hauteur_socle = nb_marches*hauteur_marche;
-    cylinder(d=diametre_axe, h=hauteur_socle, $fn=detail);
-    cylinder(d=diametre_axe-2*epaisseur, h=longueur_photo+2*epaisseur, $fn=detail);
+    translate([0,0,epaisseur-hauteur_socle])
+    union(){
+        cylinder(d=diametre_axe, h=hauteur_socle, $fn=detail);
+        translate([0,0,hauteur_socle])
+        cylinder(d=diametre_axe-2*epaisseur, h=longueur_photo-2*epaisseur, $fn=detail);
+        translate([0,0,hauteur_socle+longueur_photo-2*epaisseur])
+        cylinder(d=diametre_axe-4*epaisseur, h=4*epaisseur, $fn=detail);
+    }
 }
 
 module chapiteau(){
@@ -76,14 +82,14 @@ module chapiteau(){
 }
 
 module rainure(hauteur, largeur, epaisseur){
-    #cube([largeur, 2*epaisseur, hauteur],center = true);
+    cube([largeur, 2*epaisseur, hauteur],center = true);
     translate([0,0,hauteur/2])
 	rotate([90,0,0])
-	#cylinder(d=largeur, h=2*epaisseur, $fn=detail, center=true);
+	cylinder(d=largeur, h=2*epaisseur, $fn=detail, center=true);
 
 	translate([0,0,-hauteur/2])
 	rotate([90,0,0])
-	#cylinder(d=largeur, h=2*epaisseur, $fn=detail, center=true);
+	cylinder(d=largeur, h=2*epaisseur, $fn=detail, center=true);
 }
 
 module rondelle_base(){
@@ -100,6 +106,7 @@ module rondelle_base(){
 module empreinte_rondelle(){
     rotate([0,0,angle/4])
 	union(){
+        scale(1.025)
 		rondelle_base();
 		for(cadres =[0 : 1 : 2*nb_cadres-1]){
 		    rotate([0,0,angle/2*cadres])
@@ -135,63 +142,77 @@ module rondelle_bas(){
 }
 
 module cadre(){
-    translate([-(epaisseur_photo+epaisseur)/2,0,0])
+    translate([(epaisseur)/2,0,0])
     difference(){
-        cube([epaisseur_photo+epaisseur, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur], center=true);
-        translate([(epaisseur+1)/2, 0, (epaisseur+1)/2])
-        cube([epaisseur_photo+1, largeur_photo, longueur_photo+epaisseur+1], center=true);
+        cube([epaisseur, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur], center=true);
         rotate([0,0,90])
         rainure(longueur_photo/2, largeur_photo/3, 2*epaisseur);
-    }
+    }  
     //support_bas
-    translate([-(epaisseur_photo+epaisseur),0,-longueur_photo/2-epaisseur])
+    translate([0,0,-longueur_photo/2-epaisseur])
     rotate([0,0,180])
     difference(){
-    	triangle_isocele(largeur_photo+2*epaisseur, hauteur_hexagone-(epaisseur_photo+epaisseur), 4*epaisseur);
-        translate([hauteur_hexagone-(epaisseur_photo+epaisseur),0,2*epaisseur])
+    	triangle_isocele(largeur_photo+2*epaisseur, hauteur_hexagone, 4*epaisseur);
+        translate([hauteur_hexagone,0,2*epaisseur])
         empreinte_rondelle();
         translate([(largeur_photo/2+hauteur_hexagone-diametre_rondelle/2)/4,0,0])
         rotate([90,0,90])
         rainure((hauteur_hexagone-diametre_rondelle/2)/4, largeur_photo/4, 10*epaisseur);
     }
     //support_haut
-    translate([-(epaisseur_photo+epaisseur),0,longueur_photo/2-3*epaisseur])
+    translate([0,0,longueur_photo/2-3*epaisseur])
     rotate([0,0,180])
     difference(){
-    	triangle_isocele(largeur_photo+2*epaisseur, hauteur_hexagone-(epaisseur_photo+epaisseur), 4*epaisseur);
-        translate([hauteur_hexagone-(epaisseur_photo+epaisseur),0,2*epaisseur])
+    	triangle_isocele(largeur_photo+2*epaisseur, hauteur_hexagone, 4*epaisseur);
+        translate([hauteur_hexagone,0,2*epaisseur])
         rotate([180,0,0])
         empreinte_rondelle();
+        translate([(largeur_photo/2+hauteur_hexagone-diametre_rondelle/2)/4,0,0])
+        #vis();
     }
 }
 
 module couvercle_cadre(){
-    translate([(epaisseur_photo+epaisseur_vitre)/2,0,0])
+    translate([0,-(largeur_photo+2*epaisseur)/2, -(longueur_photo+2*epaisseur)/2])
     difference(){
-        cube([epaisseur+epaisseur_vitre, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur], center=true);
-        translate([(epaisseur+1)/2, 0, 0])
-        cube([epaisseur_vitre+1, largeur_photo, longueur_photo+1], center=true);
-        cube([epaisseur+epaisseur_vitre+1, largeur_photo-2*epaisseur, longueur_photo-2*epaisseur], center=true);
+        cube([epaisseur+epaisseur_vitre+epaisseur_photo, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur]);
+        translate([-1, epaisseur, epaisseur])
+        cube([epaisseur_photo+1, largeur_photo, longueur_photo+epaisseur+1]);
+        translate([epaisseur_photo-1, epaisseur, epaisseur])
+        cube([epaisseur_vitre+1, largeur_photo, longueur_photo+1]);
+        translate([-1, 2*epaisseur, 2*epaisseur])
+        cube([epaisseur+epaisseur_vitre+epaisseur_photo+2, largeur_photo-2*epaisseur, longueur_photo-2*epaisseur]);
     }
 }
 
 module carousel(){
     
-	translate([0,0,-hauteur_marche/2])
-	socle();
-    axe();    translate([0,0,longueur_photo+2*epaisseur+hauteur_chapiteau/2])
+	color("red") socle();
+    
+    color("green") axe();
+    
+    rotate([0,0,angle/4])
+    translate([0,0,3*epaisseur])
+    color("gray") rondelle_bas();
+    translate([0,0,longueur_photo+epaisseur])
+    rotate([180,0,angle/4])
+    color("silver") rondelle_haut();
+    translate([0,0,longueur_photo+3*epaisseur+hauteur_chapiteau/2])
     chapiteau();
 
-	for(cadres =[0 : 1 : nb_cadres-4]){
+	for(cadres =[0 : 1 : nb_cadres-3]){
 	    rotate([0,0,angle*cadres])
-	    translate([hauteur_hexagone,0,longueur_photo/2+epaisseur])
+	    translate([hauteur_hexagone,0,longueur_photo/2+2*epaisseur])
 	    union(){
+            color([0,1/6*cadres,1-1/6*cadres])
             cadre();
+            translate([epaisseur,0,0])
+            color([1-1/6*cadres,0,1-1/6*cadres])
             couvercle_cadre();
         }
-        rotate([0,0,angle*cadres])
-        translate([0,rayon_carousel,longueur_photo/2+epaisseur])
-            cylinder(d=epaisseur_totale, h=longueur_photo+2*epaisseur, center=true, $fn=detail);
+        //rotate([0,0,angle*cadres])
+        //translate([0,rayon_carousel,longueur_photo/2+epaisseur])
+            //cylinder(d=epaisseur_totale, h=longueur_photo+2*epaisseur, center=true, $fn=detail);
 	}
     
     
@@ -201,3 +222,4 @@ module carousel(){
 carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
+
