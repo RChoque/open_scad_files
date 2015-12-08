@@ -4,7 +4,7 @@ epaisseur_photo = 2;
 epaisseur_vitre = 1.75;
 epaisseur = 1.5;
 epaisseur_totale = 2*epaisseur+epaisseur_vitre+epaisseur_photo;
-rayon_carousel = largeur_photo+epaisseur_totale;
+rayon_carousel = largeur_photo+cos(180-(180-360/12))*epaisseur_totale+epaisseur;
 hauteur_marche = 5;
 nb_marches = 4;
 hauteur_chapiteau = 50;
@@ -15,6 +15,8 @@ diametre_rondelle = diametre_axe + 2*epaisseur + 2*largeur_fixation_rondelle;
 nb_cadres = 6;
 angle = 360/nb_cadres;
 detail = 100;
+nb_encoches = 5;
+longueur_encoche = (longueur_photo+2*epaisseur)/(2*nb_encoches-1);
 
 module tore(rayon){
 	rotate_extrude(convexity=10, $fn=200)
@@ -142,11 +144,23 @@ module rondelle_bas(){
 }
 
 module cadre(){
+    marge = 0.5;
     translate([(epaisseur)/2,0,0])
     difference(){
         cube([epaisseur, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur], center=true);
         rotate([0,0,90])
         rainure(longueur_photo/2, largeur_photo/3, 2*epaisseur);
+        for(encoches =[0 : 1 : nb_encoches-1]){
+        translate([0,0,(longueur_photo+2*epaisseur+longueur_encoche)/2 - 2*encoches*longueur_encoche])
+            union(){
+                translate([0,(largeur_photo+epaisseur)/2,0])
+        cube([epaisseur+2, epaisseur, longueur_encoche+marge],center=true);
+                translate([0,-(largeur_photo+epaisseur)/2,0])
+        cube([epaisseur+2, epaisseur, longueur_encoche+marge],center=true);
+            }
+        }
+        translate([-epaisseur/2, 0, -(longueur_photo+epaisseur)/2])
+        #cube([epaisseur, largeur_photo/4, epaisseur],center=true);
     }  
     //support_bas
     translate([0,0,-longueur_photo/2-epaisseur])
@@ -183,6 +197,18 @@ module couvercle_cadre(){
         translate([-1, 2*epaisseur, 2*epaisseur])
         cube([epaisseur+epaisseur_vitre+epaisseur_photo+2, largeur_photo-2*epaisseur, longueur_photo-2*epaisseur]);
     }
+    
+    translate([-epaisseur/2,0,0])
+    difference(){
+        cube([epaisseur, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur], center=true);
+        cube([epaisseur+2, largeur_photo, longueur_photo],center=true);
+        for(encoches =[0 : 1 : nb_encoches-1]){
+        translate([0,0,(longueur_photo+2*epaisseur-longueur_encoche)/2 - 2*encoches*longueur_encoche])
+        cube([epaisseur+2, largeur_photo+2*epaisseur+2, longueur_encoche],center=true);
+        }
+    }
+    translate([-epaisseur/2, 0, -(longueur_photo+epaisseur)/2])
+        cube([epaisseur, largeur_photo/4, epaisseur],center=true);
 }
 
 module carousel(){
@@ -219,7 +245,10 @@ module carousel(){
 }
 
 
-carousel();
+//carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
 
+cadre();
+translate([2*epaisseur,0,0])
+couvercle_cadre();
