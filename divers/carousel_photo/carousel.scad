@@ -1,10 +1,11 @@
-largeur_photo = 100;
-longueur_photo = 150;
+nb_cadres = 6;
+largeur_photo = 101;
+longueur_photo = 151;
 epaisseur_photo = 2;
 epaisseur_vitre = 1.75;
 epaisseur = 1.5;
 epaisseur_totale = 2*epaisseur+epaisseur_vitre+epaisseur_photo;
-rayon_carousel = largeur_photo+cos(180-(180-360/12))*epaisseur_totale+epaisseur;
+rayon_carousel = largeur_photo+2*epaisseur+cos(360/(2*nb_cadres))*epaisseur_totale+epaisseur;
 hauteur_marche = 5;
 nb_marches = 4;
 hauteur_chapiteau = 50;
@@ -12,7 +13,7 @@ hauteur_hexagone = (sqrt(3)/2)*(largeur_photo+2*epaisseur);
 diametre_axe = 36;
 largeur_fixation_rondelle = 10;
 diametre_rondelle = diametre_axe + 2*epaisseur + 2*largeur_fixation_rondelle;
-nb_cadres = 6;
+
 angle = 360/nb_cadres;
 detail = 100;
 nb_encoches = 5;
@@ -63,16 +64,20 @@ module axe(){
 module chapiteau(){
 	difference(){
 	    cylinder(r1=rayon_carousel+epaisseur, r2=0, h=hauteur_chapiteau, $fn=detail, center=true);
-	    translate([0,0,rayon_carousel/6])
-	    
-	    tore(rayon_carousel);
+        for(vis =[0 : 1 : nb_cadres-1]){
+            rotate([0,0,angle*vis])
+            translate([hauteur_hexagone-(largeur_photo/2+hauteur_hexagone-diametre_rondelle/2)/4,0,-hauteur_chapiteau/2-3])
+            vis();
+        }
+	    //translate([0,0,rayon_carousel/6])	    
+	    //tore(rayon_carousel);
 	}
     translate([0,0,-hauteur_chapiteau/4])
     difference(){
         cylinder(r=rayon_carousel+epaisseur, h=hauteur_chapiteau/2, $fn=detail, center=true);
         cylinder(r=rayon_carousel-epaisseur, h=hauteur_chapiteau/2+1, $fn=detail, center=true);
-        for(creux =[0 : 1 : 6]){
-        	rotate([0,0,180/6*creux])
+        for(creux =[0 : 1 : nb_cadres-1]){
+        	rotate([0,0,180/nb_cadres*creux])
         	translate([0,0,largeur_photo/4])
         	scale([1,1,0.5])
         	rotate([90,0,0])
@@ -121,7 +126,7 @@ module empreinte_rondelle(){
 module rondelle_haut(){
 	difference(){
 		rondelle_base();
-		cylinder(d=diametre_axe-2*epaisseur, h=6*epaisseur, $fn=detail, center=true);
+		cylinder(d=diametre_axe-4*epaisseur, h=6*epaisseur, $fn=detail, center=true);
 
 		for(cadres =[0 : 1 : 2*nb_cadres-1]){
 		    rotate([0,0,angle/2*cadres])
@@ -134,7 +139,7 @@ module rondelle_haut(){
 module rondelle_bas(){
 	difference(){
 		rondelle_base();
-		cylinder(d=diametre_axe-4*epaisseur, h=6*epaisseur, $fn=detail, center=true);
+		cylinder(d=diametre_axe-2*epaisseur, h=6*epaisseur, $fn=detail, center=true);
 		for(cadres =[0 : 1 : 2*nb_cadres-1]){
 		    rotate([0,0,angle/2*cadres])
 		    translate([diametre_rondelle/2-largeur_fixation_rondelle/2,0,-2*epaisseur])
@@ -159,8 +164,8 @@ module cadre(){
         cube([epaisseur+2, epaisseur, longueur_encoche+marge],center=true);
             }
         }
-        translate([-epaisseur/2, 0, -(longueur_photo+epaisseur)/2])
-        #cube([epaisseur, largeur_photo/4, epaisseur],center=true);
+        translate([0, 0, -(longueur_photo+epaisseur)/2])
+        cube([epaisseur, largeur_photo/4, epaisseur],center=true);
     }  
     //support_bas
     translate([0,0,-longueur_photo/2-epaisseur])
@@ -193,7 +198,7 @@ module couvercle_cadre(){
         translate([-1, epaisseur, epaisseur])
         cube([epaisseur_photo+1, largeur_photo, longueur_photo+epaisseur+1]);
         translate([epaisseur_photo-1, epaisseur, epaisseur])
-        cube([epaisseur_vitre+1, largeur_photo, longueur_photo+1]);
+        cube([epaisseur_vitre+1, largeur_photo, longueur_photo]);
         translate([-1, 2*epaisseur, 2*epaisseur])
         cube([epaisseur+epaisseur_vitre+epaisseur_photo+2, largeur_photo-2*epaisseur, longueur_photo-2*epaisseur]);
     }
@@ -220,11 +225,11 @@ module carousel(){
     rotate([0,0,angle/4])
     translate([0,0,3*epaisseur])
     color("gray") rondelle_bas();
-    translate([0,0,longueur_photo+epaisseur])
-    rotate([180,0,angle/4])
-    color("silver") rondelle_haut();
-    translate([0,0,longueur_photo+3*epaisseur+hauteur_chapiteau/2])
-    chapiteau();
+    //translate([0,0,longueur_photo+epaisseur])
+    //rotate([180,0,angle/4])
+    //color("silver") rondelle_haut();
+    //translate([0,0,longueur_photo+3*epaisseur+hauteur_chapiteau/2])
+    //chapiteau();
 
 	for(cadres =[0 : 1 : nb_cadres-3]){
 	    rotate([0,0,angle*cadres])
@@ -243,12 +248,9 @@ module carousel(){
     
     
 }
-
-
-//carousel();
+//chapiteau();
+carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
 
-cadre();
-translate([2*epaisseur,0,0])
-couvercle_cadre();
+
