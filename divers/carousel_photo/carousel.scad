@@ -10,6 +10,7 @@ hauteur_marche = 5;
 nb_marches = 4;
 hauteur_chapiteau = 50;
 hauteur_hexagone = (sqrt(3)/2)*(largeur_photo+2*epaisseur);
+hauteur_socle = nb_marches*hauteur_marche;
 diametre_axe = 36;
 largeur_fixation_rondelle = 10;
 diametre_rondelle = diametre_axe + 2*epaisseur + 2*largeur_fixation_rondelle;
@@ -32,6 +33,11 @@ module vis(){
 	cylinder (r1=4, r2=2, h=2, $fn=100);
 }
 
+module accroche(marge){
+	translate([0,10,(marge+hauteur_marche)/2]) cube([marge+largeur_photo/10, marge+10, marge+hauteur_marche], center=true);
+	cylinder(h = marge+hauteur_marche, r=marge+largeur_photo/10);
+}
+
 module triangle_isocele(base, hauteur, epaisseur){
     linear_extrude(height=epaisseur) 
     polygon(points=[[0,-base/2],[0,base/2],[hauteur,0]],paths=[ [0,1,2] ]);
@@ -50,7 +56,7 @@ module socle(){
 }
 
 module axe(){
-    hauteur_socle = nb_marches*hauteur_marche;
+    
     translate([0,0,epaisseur-hauteur_socle])
     union(){
         cylinder(d=diametre_axe, h=hauteur_socle, $fn=detail);
@@ -64,8 +70,8 @@ module axe(){
 module chapiteau(){
 	difference(){
 	    cylinder(r1=rayon_carousel+epaisseur, r2=0, h=hauteur_chapiteau, $fn=detail, center=true);
-        for(vis =[0 : 1 : nb_cadres-1]){
-            rotate([0,0,angle*vis])
+        for(vis =[0 : 1 : 2*nb_cadres-1]){
+            rotate([0,0,angle/2*vis])
             translate([hauteur_hexagone-(largeur_photo/2+hauteur_hexagone-diametre_rondelle/2)/4,0,-hauteur_chapiteau/2-3])
             vis();
         }
@@ -216,20 +222,65 @@ module couvercle_cadre(){
         cube([epaisseur, largeur_photo/4, epaisseur],center=true);
 }
 
+module socle_coupe(){
+	difference(){
+		socle();
+		translate([-(rayon_carousel+hauteur_socle),-(rayon_carousel+hauteur_socle),-0.5-hauteur_socle])
+		cube([(rayon_carousel+hauteur_socle),2*(rayon_carousel+hauteur_socle),hauteur_socle+1]);
+		translate([-(rayon_carousel+hauteur_socle),-(rayon_carousel+hauteur_socle),-0.5-hauteur_socle])
+		cube([2*(rayon_carousel+hauteur_socle),(rayon_carousel+hauteur_socle),hauteur_socle+1]);
+        translate([largeur_photo/10,rayon_carousel/2,-hauteur_socle]) 
+        rotate([0,0,90])
+        #union(){
+        	accroche(0);
+        	translate([0,0,-5]) vis();
+        }
+	}
+    translate([rayon_carousel/2,-largeur_photo/10,-hauteur_socle])
+    difference(){
+		accroche(0);
+        vis();
+    }
+}
+
+module chapiteau_coupe(){
+	difference(){
+		rotate([0,0,angle/4])
+		chapiteau();
+		translate([-(rayon_carousel+epaisseur),-(rayon_carousel+epaisseur),-0.5-hauteur_chapiteau/2])
+		cube([(rayon_carousel+epaisseur),2*(rayon_carousel+epaisseur),hauteur_chapiteau+1]);
+		translate([-(rayon_carousel+epaisseur),-(rayon_carousel+epaisseur),-0.5-hauteur_chapiteau/2])
+		cube([2*(rayon_carousel+epaisseur),(rayon_carousel+epaisseur),hauteur_chapiteau+1]);
+        translate([largeur_photo/10,2*(rayon_carousel+epaisseur)/3,-hauteur_chapiteau/2]) 
+        rotate([0,0,90])
+        #union(){
+        	accroche(0);
+        	translate([0,0,-5]) vis();
+        }
+	}
+    translate([2*(rayon_carousel+epaisseur)/3,-largeur_photo/10,-hauteur_chapiteau/2])
+    difference(){
+		accroche(0);
+        vis();
+    }
+}
+
 module carousel(){
     
-	color("red") socle();
-    
+    for(socles =[0 : 1 : 3]){
+		rotate([0,0,socles*90])socle_coupe();
+    }
     color("green") axe();
     
     rotate([0,0,angle/4])
     translate([0,0,3*epaisseur])
     color("gray") rondelle_bas();
-    //translate([0,0,longueur_photo+epaisseur])
-    //rotate([180,0,angle/4])
-    //color("silver") rondelle_haut();
-    //translate([0,0,longueur_photo+3*epaisseur+hauteur_chapiteau/2])
-    //chapiteau();
+    
+    translate([0,0,longueur_photo+epaisseur])
+    rotate([180,0,angle/4])
+    color("silver") rondelle_haut();
+    translate([0,0,longueur_photo+3*epaisseur+hauteur_chapiteau/2])
+    chapiteau();
 
 	for(cadres =[0 : 1 : nb_cadres-3]){
 	    rotate([0,0,angle*cadres])
@@ -248,7 +299,7 @@ module carousel(){
     
     
 }
-//chapiteau();
+
 carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
