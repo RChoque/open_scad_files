@@ -22,10 +22,10 @@ longueur_encoche = (longueur_photo+2*epaisseur)/(2*nb_encoches-1);
 
 module tore(rayon){
 	rotate_extrude(convexity=10, $fn=200)
-		translate([rayon/2, 0, 0])
-        rotate(-25)
+		translate([rayon, 0, 0])
+        //rotate(-25)
         scale([1,0.5])
-		circle(r = rayon/2, $fn = 100);
+		circle(r = rayon, $fn = 100);
 }
 
 module vis(){
@@ -75,8 +75,8 @@ module chapiteau(){
             translate([hauteur_hexagone-(largeur_photo/2+hauteur_hexagone-diametre_rondelle/2)/4,0,-hauteur_chapiteau/2-3])
             vis();
         }
-	    //translate([0,0,rayon_carousel/6])	    
-	    //tore(rayon_carousel);
+	    translate([0,0,(rayon_carousel-hauteur_chapiteau)/2])	    
+	    #tore(rayon_carousel);
 	}
     translate([0,0,-hauteur_chapiteau/4])
     difference(){
@@ -229,13 +229,35 @@ module socle_coupe(){
 		cube([(rayon_carousel+hauteur_socle),2*(rayon_carousel+hauteur_socle),hauteur_socle+1]);
 		translate([-(rayon_carousel+hauteur_socle),-(rayon_carousel+hauteur_socle),-0.5-hauteur_socle])
 		cube([2*(rayon_carousel+hauteur_socle),(rayon_carousel+hauteur_socle),hauteur_socle+1]);
+	}
+}
+
+module socle_coupe_1(){
+	difference(){
+		socle_coupe();
         translate([largeur_photo/10,rayon_carousel/2,-hauteur_socle]) 
         rotate([0,0,90])
         #union(){
         	accroche(0);
         	translate([0,0,-5]) vis();
         }
+        translate([rayon_carousel/2,largeur_photo/10,-hauteur_socle])
+        rotate([0,0,180])
+        #union(){
+        	accroche(0);
+        	translate([0,0,-5]) vis();
+        }
 	}
+}
+
+module socle_coupe_2(){
+	socle_coupe();
+    translate([-largeur_photo/10,rayon_carousel/2,-hauteur_socle])
+    rotate([0,0,-90])
+    difference(){
+		accroche(0);
+        vis();
+    }
     translate([rayon_carousel/2,-largeur_photo/10,-hauteur_socle])
     difference(){
 		accroche(0);
@@ -251,13 +273,35 @@ module chapiteau_coupe(){
 		cube([(rayon_carousel+epaisseur),2*(rayon_carousel+epaisseur),hauteur_chapiteau+1]);
 		translate([-(rayon_carousel+epaisseur),-(rayon_carousel+epaisseur),-0.5-hauteur_chapiteau/2])
 		cube([2*(rayon_carousel+epaisseur),(rayon_carousel+epaisseur),hauteur_chapiteau+1]);
-        translate([largeur_photo/10,2*(rayon_carousel+epaisseur)/3,-hauteur_chapiteau/2]) 
+	}
+}
+
+module chapiteau_coupe_1(){
+	difference(){
+		chapiteau_coupe();
+		translate([largeur_photo/10,2*(rayon_carousel+epaisseur)/3,-hauteur_chapiteau/2]) 
         rotate([0,0,90])
         #union(){
         	accroche(0);
         	translate([0,0,-5]) vis();
         }
+        translate([2*(rayon_carousel+epaisseur)/3,largeur_photo/10,-hauteur_chapiteau/2]) 
+        rotate([0,0,180])
+        #union(){
+        	accroche(0);
+        	translate([0,0,-5]) vis();
+        }
 	}
+}
+
+module chapiteau_coupe_2(){
+	chapiteau_coupe();
+    translate([-largeur_photo/10,2*(rayon_carousel+epaisseur)/3,-hauteur_chapiteau/2]) 
+    rotate([0,0,-90])
+    difference(){
+		accroche(0);
+        vis();
+    }
     translate([2*(rayon_carousel+epaisseur)/3,-largeur_photo/10,-hauteur_chapiteau/2])
     difference(){
 		accroche(0);
@@ -268,7 +312,12 @@ module chapiteau_coupe(){
 module carousel(){
     
     for(socles =[0 : 1 : 3]){
-		rotate([0,0,socles*90])socle_coupe();
+		rotate([0,0,socles*90])
+        if(socles%2!=0){
+            socle_coupe_1();            
+        }else{
+            socle_coupe_2();
+        }
     }
     color("green") axe();
     
@@ -300,6 +349,7 @@ module carousel(){
     
 }
 
+//chapiteau_coupe_1();
 carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
