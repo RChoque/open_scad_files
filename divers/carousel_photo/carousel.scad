@@ -64,6 +64,8 @@ module axe(){
         cylinder(d=diametre_axe-2*epaisseur, h=longueur_photo-2*epaisseur, $fn=detail);
         translate([0,0,hauteur_socle+longueur_photo-2*epaisseur])
         cylinder(d=diametre_axe-4*epaisseur, h=4*epaisseur, $fn=detail);
+        translate([0,0,hauteur_socle+longueur_photo+2*epaisseur])
+        cylinder(r1=(diametre_axe-4*epaisseur)/2, r2=0, h=hauteur_chapiteau/2, $fn=detail); 
     }
 }
 
@@ -89,7 +91,7 @@ module chapiteau(){
         	rotate([90,0,0])
 			cylinder(d=largeur_photo, h=2*(rayon_carousel+epaisseur+1), $fn=detail, center=true);
 	    }
-        
+        cylinder(r1=(diametre_axe-4*epaisseur)/2, r2=0, h=hauteur_chapiteau/2, $fn=detail);
     }
     
 }
@@ -349,9 +351,10 @@ module carousel(){
     
 }
 
-socle_coupe_1();
+
+//chapiteau();
 //carousel();
-//rondelle_bas();
+axe();
 //translate([diametre_rondelle,0,0])rondelle_haut();
 
 
