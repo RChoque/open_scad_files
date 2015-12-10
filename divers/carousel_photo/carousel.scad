@@ -1,12 +1,12 @@
 nb_cadres = 6;
 largeur_photo = 101;
 longueur_photo = 151;
-epaisseur_photo = 2;
+epaisseur_photo = 1.5;
 epaisseur_vitre = 1.75;
 epaisseur = 1.5;
 epaisseur_totale = 2*epaisseur+epaisseur_vitre+epaisseur_photo;
 rayon_carousel = largeur_photo+2*epaisseur+cos(360/(2*nb_cadres))*epaisseur_totale+epaisseur;
-hauteur_marche = 5;
+hauteur_marche = 4;
 nb_marches = 4;
 hauteur_chapiteau = 50;
 hauteur_hexagone = (sqrt(3)/2)*(largeur_photo+2*epaisseur);
@@ -30,7 +30,7 @@ module tore(rayon){
 
 module vis(){
 	cylinder (r1=2, r2=2, h=20, $fn=100);
-	cylinder (r1=4, r2=2, h=2, $fn=100);
+	cylinder (r1=5, r2=2, h=3, $fn=100);
 }
 
 module accroche(marge){
@@ -349,8 +349,8 @@ module carousel(){
     
 }
 
-//chapiteau_coupe_1();
-carousel();
+socle_coupe_1();
+//carousel();
 //rondelle_bas();
 //translate([diametre_rondelle,0,0])rondelle_haut();
 
