@@ -205,10 +205,11 @@ module couvercle_cadre(){
         cube([epaisseur+epaisseur_vitre+epaisseur_photo, largeur_photo+2*epaisseur, longueur_photo+2*epaisseur]);
         translate([-1, epaisseur, epaisseur])
         cube([epaisseur_photo+1, largeur_photo, longueur_photo+epaisseur+1]);
-        translate([epaisseur_photo-1, epaisseur, epaisseur])
-        cube([epaisseur_vitre+1, largeur_photo, longueur_photo]);
-        translate([-1, 2*epaisseur, 2*epaisseur])
-        cube([epaisseur+epaisseur_vitre+epaisseur_photo+2, largeur_photo-2*epaisseur, longueur_photo-2*epaisseur]);
+        //TODO supprimer les +1
+        translate([epaisseur_photo-1, epaisseur+0.5, epaisseur+0.5])
+        cube([epaisseur_vitre+1, largeur_photo-1, longueur_photo-1]);
+        translate([-1, 3*epaisseur, 3*epaisseur])
+        cube([epaisseur+epaisseur_vitre+epaisseur_photo+2, largeur_photo-4*epaisseur, longueur_photo-4*epaisseur]);
     }
     
     translate([-epaisseur/2,0,0])
@@ -354,7 +355,7 @@ module carousel(){
 
 //chapiteau();
 //carousel();
-axe();
+couvercle_cadre();
 //translate([diametre_rondelle,0,0])rondelle_haut();
 
 
