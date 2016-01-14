@@ -1,5 +1,5 @@
 largeur_manche = 15;
-longueur_manche = 20;
+longueur_manche = 24;
 hauteur_manche = 30;
 largeur_fente = 5;
 hauteur_fente = 20;
