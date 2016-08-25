@@ -1,13 +1,15 @@
 epaisseur = 2;
 largeur = 85;
-hauteur = 50;
+hauteur = 55;
 hauteur_max = 35;
-longueur = 190;
+longueur = 164;
 largeur_fente = 44;
 largeur_fente_2 = 40.5;
 diametre_vis = 3;
 marge = (largeur-largeur_fente)/2;
 diff = hauteur - hauteur_max;
+longueur_interrupteur = 30;
+largeur_interrupteur = 22;
 
 
 module tube(longueur, largeur, hauteur){
@@ -59,10 +61,10 @@ module goulotte2(){
         cube([5, 10, longueur+1],center=true);
     }
     
-    translate([1-(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
+    translate([0.5-(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
     cube([2,epaisseur,longueur],center=true);
     
-    translate([-largeur_fente_2/2,(hauteur-8)/2-(6+epaisseur),0])
+    translate([-0.5-largeur_fente_2/2,(hauteur-8)/2-(6+epaisseur),0])
     cube([epaisseur/2,4,longueur],center=true);
     
     translate([(largeur_fente+epaisseur)/2,(hauteur-5)/2-epaisseur,0])
@@ -75,9 +77,9 @@ module goulotte2(){
         cube([5, 10, longueur+1],center=true);
     }
     
-    translate([-1+(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
+    translate([-0.5+(largeur_fente)/2,(hauteur-11)/2-(5.5+epaisseur),0])
     cube([2,epaisseur,longueur],center=true);
-    translate([largeur_fente_2/2,(hauteur-8)/2-(6+epaisseur),0])
+    translate([largeur_fente_2/2+0.5,(hauteur-8)/2-(6+epaisseur),0])
     cube([epaisseur/2,4,longueur],center=true);
 }
 
@@ -85,34 +87,50 @@ module cache(){
     translate([0, (hauteur-epaisseur)/2,0])
     cube([largeur_fente, epaisseur, longueur],center=true);
     
-    translate([7.5-(largeur_fente+epaisseur)/2,(hauteur-10)/2-epaisseur,0])
-    cube([epaisseur, 10, longueur],center=true);
+    translate([5.5-(largeur_fente+epaisseur)/2,(hauteur-11)/2-epaisseur,0])
+    rotate([0,0,-15])
+    cube([epaisseur, 14, longueur],center=true);
     
-    translate([7.5+3.2-(largeur_fente+epaisseur)/2,(hauteur-8.5)/2-(10+epaisseur),0])
+    translate([5.5+1.5-(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-(10+epaisseur),0])
     rotate([0,0,35])
     translate([0,3,0])
     cube([epaisseur, 6, longueur],center=true);
     
-    translate([7.5-2.5-(largeur_fente+epaisseur)/2,(hauteur-10.5)/2-epaisseur,0])
+    translate([5.5-2.5-(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-epaisseur,0])
     cube([5, epaisseur/2, longueur],center=true);
     
-    translate([7.5-5-(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-epaisseur,0])
+    translate([5.5-5-(largeur_fente+epaisseur)/2,(hauteur-14.5)/2-epaisseur,0])
+    rotate([0,0,-15])
     cube([epaisseur/2, 3, longueur],center=true);
     
     //other side
-    translate([-7.5+(largeur_fente+epaisseur)/2,(hauteur-10)/2-epaisseur,0])
-    cube([epaisseur, 10, longueur],center=true);
+    translate([-5.5+(largeur_fente+epaisseur)/2,(hauteur-11)/2-epaisseur,0])
+    rotate([0,0,15])
+    cube([epaisseur, 14, longueur],center=true);
     
-    translate([-7.5-3.2+(largeur_fente+epaisseur)/2,(hauteur-8.5)/2-(10+epaisseur),0])
+    translate([-5.5-1.5+(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-(10+epaisseur),0])
     rotate([0,0,-35])
     translate([0,3,0])
     cube([epaisseur, 6, longueur],center=true);
     
-    translate([-7.5+2.5+(largeur_fente+epaisseur)/2,(hauteur-10.5)/2-epaisseur,0])
+    translate([-5.5+2.5+(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-epaisseur,0])
     cube([5, epaisseur/2, longueur],center=true);
     
-    translate([-7.5+5+(largeur_fente+epaisseur)/2,(hauteur-12.5)/2-epaisseur,0])
+    translate([-5.5+5+(largeur_fente+epaisseur)/2,(hauteur-14.5)/2-epaisseur,0])
+    rotate([0,0,15])
     cube([epaisseur/2, 3, longueur],center=true);
+}
+
+module cache_interrupteur(){
+    difference(){
+        cache();
+        translate([0,(hauteur-epaisseur)/2, 4*epaisseur+(largeur_interrupteur-longueur)/2])
+        rotate([90,0,0])
+        #cube([longueur_interrupteur,largeur_interrupteur,2*epaisseur], center=true);
+        translate([0,(hauteur-epaisseur)/2, largeur_interrupteur+8*epaisseur+(largeur_interrupteur-longueur)/2])
+        rotate([90,0,0])
+        #cube([longueur_interrupteur,largeur_interrupteur,2*epaisseur], center=true);
+    }
 }
 
 module reglette_percee(){
@@ -177,9 +195,9 @@ module reglette_extremite(){
     translate([0,-diff/2,-(diff+longueur)/2])
     extremite();
     reglette_percee();
-    translate([3+marge,hauteur/2-diff,-longueur/2])
+    translate([3+marge-1,hauteur/2-diff,-longueur/2])
     color("red")support_complement();
-    translate([-(3+marge),hauteur/2-diff,-longueur/2])
+    translate([1-(3+marge),hauteur/2-diff,-longueur/2])
     color("red")support_complement();
 }
 
@@ -229,5 +247,6 @@ import("reglette_3b.dxf");
 //    #cube([44,10,44]);
 }
 
-reglette_extremite();
-//cache();
+//reglette_percee();
+//color("red") 
+cache_interrupteur();
