@@ -14,21 +14,21 @@ largeur = largeur_alim;
 bordure = 30;
 longueur_prisme = hauteur_totale / tan(angle);
 
-longueur_lcd = 22;
-longueur_lcd_pcb = 30;
+longueur_lcd = 22.5;
+longueur_lcd_pcb = 30.2;
 hauteur_lcd = 10;
-epaisseur_lcd = 5;
+epaisseur_lcd = 6.5;
 
-diam_ext_banana = 10;
-diam_int_banana = 5;
+diam_ext_banana = 11;
+diam_int_banana = 4.7;
 
 diam_ext_bnc = 10;
 diam_int_bnc = 5;
 
-diam_ext_potentiometre = 12;
-diam_int_potentiometre = 5;
+diam_ext_potentiometre = 15;
+diam_int_potentiometre = 6.7;
 
-diam_int_power_btn = 10;
+diam_int_power_btn = 20;
 
 epaisseur_pcb = 1.5;
 espace = 15;
@@ -37,7 +37,7 @@ ecart_europlug = 19;
 largeur_banana_pair = ecart_europlug+2*diam_ext_banana;
 hauteur_tension = 21;
 
-longueur_usb = 15;
+longueur_usb = 15.5;
 hauteur_usb = 8;
 
 diam_vis = 2.5;
@@ -99,16 +99,16 @@ module accroche_lcd(){
 module bnc(){
     color("Grey")
     union(){
-        cylinder(d=diam_ext_bnc, h=10, $fn=50);
+        cylinder(d=diam_ext_bnc, h=15, $fn=50);
         translate([0,0,-10])
-        cylinder(d=diam_int_bnc, h=10, $fn=50);
+        cylinder(d=diam_int_bnc, h=15, $fn=50);
     }
 }
 
 module banana(){
-    cylinder(d=diam_ext_banana, h=10, $fn=50);
+    cylinder(d=diam_ext_banana, h=20, $fn=50);
     translate([0,0,-10])
-    cylinder(d=diam_int_banana, h=10, $fn=50);
+    cylinder(d=diam_int_banana, h=20, $fn=50);
 }
 
 module banana_pair(){
@@ -131,7 +131,7 @@ module potentiometre(){
 }
 
 module power_btn(){
-    cylinder(d=diam_int_power_btn, h=10, $fn=50, center=true);
+    cylinder(d=diam_int_power_btn, h=25, $fn=50, center=true);
 }
 
 module usb(){
