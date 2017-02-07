@@ -76,17 +76,23 @@ module lcd_screen(){
 }
 
 module accroche_lcd(){
-    translate([0,marge-largeur_alim/2,0])
+    diam = (longueur_lcd_pcb-longueur_lcd)/2;
+    translate([0,marge-largeur_alim/2,-epaisseur_lcd])
+    difference(){
     union(){
+        translate([0,-diam/2,0])
         difference(){
-            cylinder(r1=2, r2=3, h=hauteur_lcd, $fn=25);
-            cylinder(d=2, h=hauteur_lcd, $fn=25);
+            cylinder(d1=diam, d2=1.5*diam, h=epaisseur_lcd, $fn=25);
+            cylinder(d=2, h=epaisseur_lcd, $fn=25);
         }
-        translate([0,longueur_lcd_pcb,0])
+        translate([0,longueur_lcd+diam/2,0])
         difference(){
-            cylinder(r1=2, r2=3, h=hauteur_lcd, $fn=25);
-            cylinder(d=2, h=hauteur_lcd, $fn=25);
+            cylinder(r1=2, r2=3, h=epaisseur_lcd, $fn=25);
+            cylinder(d=2, h=epaisseur_lcd, $fn=25);
         }
+    }
+    translate([0,0,epaisseur_lcd])
+    lcd_screen();
     }
 }
 
@@ -158,6 +164,14 @@ module tension_position(rang, adjustable){
     tension(adjustable);
 }
 
+module accroche_lcd_position(rang){
+    tension_x = cos(angle)*(hauteur_tension*(rang-1)+hauteur_tension/2);
+    tension_z = sin(angle)*(hauteur_tension*(rang-1)+hauteur_tension/2);
+    translate([bordure+tension_x, 0, hauteur_totale-tension_z])
+    rotate([0,angle,0]) 
+   #accroche_lcd();
+}
+
 module boitier_prisme(){
     difference(){
         prisme(longueur_prisme, largeur, hauteur_totale);
@@ -197,7 +211,11 @@ module boitier_perce(){
         rotate([0,angle,0])
         power_btn();
     }
-    
+    accroche_lcd_position(1);
+    accroche_lcd_position(2);
+    accroche_lcd_position(3);
+    accroche_lcd_position(4);
+    accroche_lcd_position(5);
     
     translate([0, largeur_alim/2-diam_vis-epaisseur/2, diam_vis+epaisseur/2])
     accroche(20);
@@ -224,6 +242,5 @@ module poignee(){
     
 }
 
-rotate([0,angle,0]) accroche_lcd();
 boitier_perce();
 //alim();
