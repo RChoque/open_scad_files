@@ -51,16 +51,6 @@ module accroche45(r1, r2, hauteur_accroche){
     }
 }
 
-module passe_cable(){
-    scale([1,0.75,1])
-    difference(){
-        sphere(r=2*epaisseur, $fn=30);
-        cylinder(r=epaisseur, h=5*epaisseur, $fn=30, center=true);
-    translate([-2*epaisseur,0,-2*epaisseur])
-        cube([4*epaisseur,4*epaisseur,4*epaisseur]);
-    }
-}
-
 module support_raspberry_pi(){
     //#cube([longueur_rpi,largeur_rpi,epaisseur]);
     //#translate([-17,(largeur_rpi-24)/2,0])cube([17,24,epaisseur]);
@@ -238,7 +228,7 @@ module boite_complete(){
     difference(){
         boite();
         //extrudeur
-        translate([0,largeur_boite/2,-hauteur_boite/2+2*marge])
+        translate([-longueur_boite/2-rayon_accroche+largeur_rpi+1.5*marge,largeur_boite/2,-hauteur_boite/2+2*marge])
         rotate([90,90,0])
         #prise_extruder();
         
@@ -246,15 +236,19 @@ module boite_complete(){
         rotate([90,0,-90])
     #prise_alim();
         
-        translate([longueur_boite/2,11+22+2*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
+        translate([longueur_boite/2,-21+22+2*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
         rotate([0,90,0])
         #prise_axe_xyz();
         
-        translate([longueur_boite/2,11+2*22+3*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
+        translate([longueur_boite/2,-21+2*22+3*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
         rotate([0,90,0])
         #prise_axe_xyz();
         
-        translate([longueur_boite/2,11+3*22+4*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
+        translate([longueur_boite/2,-21+3*22+4*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
+        rotate([0,90,0])
+        #prise_axe_xyz();
+        
+        translate([longueur_boite/2,-21+4*22+5*marge-largeur_boite/2,-hauteur_boite/2+3*marge])
         rotate([0,90,0])
         #prise_axe_xyz();
         
@@ -265,10 +259,11 @@ module boite_complete(){
         rotate([0,90,0])
         #bouton_on();
         
-        translate([5+longueur_boite/2,11+marge-largeur_boite/2,-hauteur_boite/2+3*marge])
+        translate([5+longueur_boite/2,26+marge-largeur_boite/2,hauteur_boite/2-marge])
+        rotate([90,0,0])
         #usb();
         
-        translate([2+longueur_boite/2,11+marge-largeur_boite/2,hauteur_boite/2-marge])
+        translate([2+longueur_boite/2,7+marge-largeur_boite/2,hauteur_boite/2-marge])
         rotate([90,0,0])
         #switch();
         
@@ -305,17 +300,9 @@ module boite_complete(){
     linear_extrude(height = 2, center = true, convexity = 10)
     import("Z.dxf");
     
-    translate([-largeur_boite/4,longueur_boite/2-epaisseur/2,marge])
-    passe_cable();
-    
-    translate([0,longueur_boite/2-epaisseur/2,marge])
-    passe_cable();
-    
-    translate([largeur_boite/4,longueur_boite/2-epaisseur/2,marge])
-    passe_cable();
 }
 
-module couvercle(){
+module couvercle_base(){
     difference(){
         cube_arrondi(longueur_boite+2*epaisseur, largeur_boite+2*epaisseur, epaisseur-rayon_accroche/4);
         translate([longueur_boite/2+epaisseur,largeur_boite/2+epaisseur,-(epaisseur+hauteur_boite)/2])
@@ -333,21 +320,32 @@ module couvercle(){
     translate([(longueur_boite/2+epaisseur),-(largeur_boite/2+epaisseur),-(epaisseur+hauteur_boite)/2])
     color("blue")
     cylinder (r=rayon_vis, h=hauteur_boite+1, $fn=100);
-    
-        translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+3*longueur_rpi/4,-10])
-        ventilateur(40);
     }
-    
-    translate([0,-320,1.5])
-    linear_extrude(height = 2, center = true, convexity = 10)
-    import("k8200.dxf");
-    
-    translate([-50,-320,1.5])
-    linear_extrude(height = 2, center = true, convexity = 10)
-    import("OctoPrint_Logo.dxf");
 }
 
-boite_complete();
+module couvercle(){
+    difference(){
+        couvercle_base();
+    
+      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+3*longueur_rpi/4,-10])
+        ventilateur(40);
+        
+      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+3*longueur_rpi/4-45,-10])
+        ventilateur(40);
+        
+    translate([-80,-90,1])
+    linear_extrude(height = 2, center = true, convexity = 10)
+    scale(0.55)
+    import("OctoPrint_Logo.dxf");
+    
+    translate([-70,-340,1])
+    linear_extrude(height = 2, center = true, convexity = 10)
+    import("K8200.dxf");
+}
+    
+}
+
+//boite_complete();
 
 //translate([0,0,10+hauteur_boite/2])
-//couvercle();
+couvercle();
