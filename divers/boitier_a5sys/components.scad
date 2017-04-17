@@ -1,37 +1,39 @@
-longueur_nodemcu = 50;
-largeur_nodemcu = 27;
+longueur_nodemcu = 48.5;
+largeur_nodemcu = 25.5;
 longueur_rfid = 60;
 largeur_rfid = 40;
 epaisseur_pcb = 1.5;
 longueur_support_batterie = 76;
-largeur_support_batterie = 21;
+largeur_support_batterie = 21.5;
 hauteur_support_batterie = 21;
-diam_vis = 2.5;
-diam_vis_head = 6;
+diam_vis = 2.75;
+diam_vis_head = 6.5;
 longueur_alim_5V_2 = 34;
 largeur_alim_5V_2 = 16;
-longueur_alim_5V = 36;
-largeur_alim_5V = 17;
-longueur_charging_circuit = 27;
-largeur_charging_circuit = 17;
+longueur_alim_5V = 37.5;
+largeur_alim_5V = 18;
+longueur_charging_circuit = 28;
+largeur_charging_circuit = 17.5;
 longueur_circuit_buttons = 70;
 largeur_circuit_buttons = 25;
-longueur_switch = 8;
-largeur_switch = 4;
+longueur_switch = 8.5;
+largeur_switch = 4.5;
 hauteur_switch = 3.8;
+diam_int_btn = 12.5;
+diam_ext_btn = 17.5;
 
 module push_button(color){
     translate([0,0,5.5])
     scale([1,1,0.5])
     color(color)
-    sphere(d=12, $fn=50);
+    sphere(d=diam_int_btn, $fn=50);
     color("black")
     union(){
-        cylinder(d=17.5, h=2, $fn=50);
+        cylinder(d=diam_ext_btn, h=2, $fn=50);
         translate([0,0,2])
-        cylinder(d1=17.5, d2=14.5, h=3.5, $fn=50);
+        cylinder(d1=diam_ext_btn, d2=diam_ext_btn-3, h=3.5, $fn=50);
         translate([0,0,-hauteur_btn])
-        cylinder(d=12, h=hauteur_btn, $fn=50);
+        cylinder(d=diam_int_btn, h=hauteur_btn, $fn=50);
     }
 }
 
@@ -56,13 +58,13 @@ module node_mcu(){
     diam_hole = 3;
     difference(){
         cube([longueur_nodemcu, largeur_nodemcu, epaisseur_pcb], center=true);
-        translate([(longueur_nodemcu-diam_hole)/2-1, (largeur_nodemcu-diam_hole)/2-1,0])
+        translate([(longueur_nodemcu-diam_hole)/2-0.5, (largeur_nodemcu-diam_hole)/2-0.5,0])
         cylinder(d=diam_hole, h=2*epaisseur_pcb, $fn=50, center=true );
-        translate([(longueur_nodemcu-diam_hole)/2-1, -(largeur_nodemcu-diam_hole)/2+1,0])
+        translate([(longueur_nodemcu-diam_hole)/2-0.5, -(largeur_nodemcu-diam_hole)/2+0.5,0])
         cylinder(d=diam_hole, h=2*epaisseur_pcb, $fn=50, center=true );
-        translate([-(longueur_nodemcu-diam_hole)/2+1, (largeur_nodemcu-diam_hole)/2-1,0])
+        translate([-(longueur_nodemcu-diam_hole)/2+0.5, (largeur_nodemcu-diam_hole)/2-0.5,0])
         cylinder(d=diam_hole, h=2*epaisseur_pcb, $fn=50, center=true );
-        translate([-(longueur_nodemcu-diam_hole)/2+1, -(largeur_nodemcu-diam_hole)/2+1,0])
+        translate([-(longueur_nodemcu-diam_hole)/2+0.5, -(largeur_nodemcu-diam_hole)/2+0.5,0])
         cylinder(d=diam_hole, h=2*epaisseur_pcb, $fn=50, center=true );
     }
     translate([0,largeur_nodemcu/2-1,epaisseur_pcb/2+1])
@@ -85,13 +87,13 @@ module node_mcu(){
 module rfid(){
     difference(){
         cube([longueur_rfid, largeur_rfid, epaisseur_pcb]);
-        translate([7,7,-1])
+        translate([7,7.5,-1])
         cylinder(d=2.5, h=2*epaisseur_pcb, $fn=50);
-        translate([7,largeur_rfid-7,-1])
+        translate([7,largeur_rfid-7.5,-1])
         cylinder(d=2.5, h=2*epaisseur_pcb, $fn=50);
-        translate([44,2,-1])
+        translate([44,2.5,-1])
         cylinder(d=2.5, h=2*epaisseur_pcb, $fn=50);
-        translate([44,largeur_rfid-2,-1])
+        translate([44,largeur_rfid-2.5,-1])
         cylinder(d=2.5, h=2*epaisseur_pcb, $fn=50);
     }
 }
@@ -99,8 +101,8 @@ module rfid(){
 module charging_circuit() {
     difference(){
     cube([longueur_charging_circuit,largeur_charging_circuit,epaisseur_pcb]);
-        translate([longueur_charging_circuit-1,2,-1])
-    cube([2,largeur_charging_circuit-4,epaisseur_pcb+2]);
+        translate([longueur_charging_circuit-1,3,-1])
+    cube([2,largeur_charging_circuit-6,epaisseur_pcb+2]);
     }
     translate([0,(largeur_charging_circuit-8)/2,epaisseur_pcb])
     cube([5.5,8,3]);
@@ -148,3 +150,4 @@ module prisme(x,y,z){
     polygon(points = [[0, 0], [z, 0],[0, x]], paths = [[0, 1, 2]]);
     }
 }
+charging_circuit();
