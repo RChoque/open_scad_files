@@ -1,5 +1,5 @@
-longueur_nodemcu = 48.5;
-largeur_nodemcu = 25.5;
+longueur_nodemcu = 57.75;
+largeur_nodemcu = 31.25;
 longueur_rfid = 60;
 largeur_rfid = 40;
 epaisseur_pcb = 1.5;
@@ -150,4 +150,3 @@ module prisme(x,y,z){
     polygon(points = [[0, 0], [z, 0],[0, x]], paths = [[0, 1, 2]]);
     }
 }
-charging_circuit();
