@@ -5,7 +5,7 @@ hauteur_btn = 15;
 rayon_accroche = 3.5; 
 marge_cablage = 20;
 largeur_support_node_mcu = largeur_nodemcu;
-longueur_support_node_mcu = longueur_nodemcu+8;
+longueur_support_node_mcu = longueur_nodemcu+6;
 hauteur_boite = hauteur_support_batterie+15+2*epaisseur;
 largeur_boite = largeur_rfid+2*epaisseur+4*rayon_accroche;
 longueur_boite = longueur_support_batterie+6*epaisseur+2*rayon_accroche+longueur_alim_5V+longueur_charging_circuit;
@@ -56,7 +56,7 @@ module boite_base(longueur_boite, largeur_boite, hauteur_boite){
 }
 
 module support_node_mcu(){
-    diam_hole = 2.5;
+    diam_hole = 2;
     difference(){
         cube([longueur_support_node_mcu, largeur_support_node_mcu, epaisseur-0.5], center=true);
         translate([0,largeur_nodemcu/2-1,0])
@@ -322,18 +322,18 @@ module couvercle_complet(){
     cube([0.3, largeur_circuit_buttons+epaisseur, 10]);
 }
 
-//translate([0,0,hauteur_boite/2])
-//boite_complete();
+translate([0,0,hauteur_boite/2])
+boite_complete();
 
 //translate([epaisseur+2*rayon_accroche-longueur_boite/2+marge_cablage,0,hauteur_boite-(largeur_circuit_buttons/2+hauteur_support_batterie)])
 //rotate([90,0,90])
 //#circuit_buttons();
 
-//translate([0,100,-5])
-//couvercle_complet();
+translate([0,100,-5])
+couvercle_complet();
 
-translate([longueur_boite/2-2*epaisseur-2*rayon_accroche-longueur_support_node_mcu,100+largeur_boite/2-largeur_support_node_mcu-epaisseur,epaisseur+6])
-translate([longueur_support_node_mcu/2,largeur_support_node_mcu/2,-3.754])
-support_node_mcu();
+//translate([longueur_boite/2-2*epaisseur-2*rayon_accroche-longueur_support_node_mcu,100+largeur_boite/2-largeur_support_node_mcu-epaisseur,epaisseur+6])
+//translate([longueur_support_node_mcu/2,largeur_support_node_mcu/2,-3.754])
+//support_node_mcu();
 
 
