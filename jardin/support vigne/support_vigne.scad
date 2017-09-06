@@ -34,13 +34,26 @@ cylinder(d=largeur, h=longueur, $fn=100, center=true);
 }
 module equerre() {
 difference(){
-
-    equerre1();
-    
+    equerre1();    
     translate([longueur/2+epaisseur, longueur/4+epaisseur, 0])
     scale([1,0.5,1])
     cylinder(r=longueur, h=largeur, $fn=100, center=true);
 }
+}
+
+module contour() {
+    scale([1,0.5,1])
+    difference(){
+        cylinder(r=longueur+epaisseur, h=largeur, $fn=100, center=true);
+        translate([0,epaisseur,0])
+        cylinder(r=longueur, h=largeur+2, $fn=100, center=true);
+        translate([longueur/2, longueur/2, 0])
+        cube([longueur+10,longueur+10,largeur+2], center=true);
+        translate([-longueur/2, longueur/2, 0])
+        cube([longueur+10,longueur+10,largeur+2], center=true);
+        translate([longueur/2, -longueur/2, 0])
+        cube([longueur+10,longueur+10,largeur+2], center=true);
+    }
 }
 
 module vis(){
@@ -53,7 +66,9 @@ module vis(){
 difference(){
 union(){
 equerre();
-translate([longueur/2, diam_cylindre_fil/2-hauteur/2, 0])
+translate([longueur/2+epaisseur, longueur/4+epaisseur, 0])
+contour();
+translate([longueur/2-1, diam_cylindre_fil/2-hauteur/2, 0])
 cylinder(d=diam_cylindre_fil, h= largeur, $fn=100, center= true);
 translate([longueur/2-longueur/3, diam_cylindre_fil/2-hauteur/2, 0])
 cylinder(d=diam_cylindre_fil, h= largeur, $fn=100, center= true);
@@ -66,4 +81,11 @@ vis();
 translate([3-longueur/2,hauteur/2-hauteur/4,0])
 rotate([0,-90,0])
 vis();
+translate([longueur/2-1, diam_cylindre_fil/2-hauteur/2, 0])
+cylinder(d=diametre_fil, h=largeur+1, $fn=100, center=true);
+translate([longueur/2-longueur/3, diam_cylindre_fil/2-hauteur/2, 0])
+cylinder(d=diametre_fil, h=largeur+1, $fn=100, center=true);
+translate([longueur/2-2*longueur/3, diam_cylindre_fil/2-hauteur/2, 0])
+cylinder(d=diametre_fil, h=largeur+1, $fn=100, center=true);
 }
+
