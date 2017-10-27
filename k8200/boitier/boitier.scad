@@ -14,6 +14,9 @@ hauteur_boite = longueur_transfo+marge;
 longueur_boite = largeur_rpi+largeur_k8200+4*marge-2*rayon_accroche;
 largeur_boite = longueur_k8200+3*marge;
 
+epaisseur_ventilo = 10;
+epaisseur_couche = 0.2;
+
 
 module cube_arrondi(longueur, largeur, hauteur){
     minkowski(){
@@ -61,7 +64,7 @@ module support_raspberry_pi(){
 }
 
 module support_carte_k8200(){
-    //#cube([longueur_k8200,largeur_k8200,epaisseur]);
+    #cube([longueur_k8200,largeur_k8200,epaisseur]);
     translate([5, 5, 0])
     accroche2(2.5, 1, 8);
     translate([longueur_k8200-5, 5, 0])
@@ -142,7 +145,26 @@ module nappe_camera(){
 }
 
 module ventilateur(diametre){
-    cylinder (d=diametre, h=20, $fn=100);
+    difference(){
+        cylinder (d=diametre, h=20, $fn=100);
+        translate([0,0,10])
+        union(){
+            cube([diametre, 1.5 ,20], center=true);
+            cube([1.5,diametre,20], center=true);
+            rotate([0,0,45])
+            cube([1.5,diametre,20], center=true);
+            rotate([0,0,-45])
+            cube([1.5,diametre,20], center=true);
+        }
+        difference(){
+            cylinder (d=diametre/2+1.5, h=20, $fn=100);
+            cylinder (d=diametre/2, h=20, $fn=100);
+        }
+        difference(){
+            cylinder (d=3*diametre/4+1.5, h=20, $fn=100);
+            cylinder (d=3*diametre/4, h=20, $fn=100);
+        }
+    }
     translate([diametre/2,diametre/2,0])
     cylinder (r=rayon_vis, h=20, $fn=100);
     translate([diametre/2,-diametre/2,0])
@@ -184,24 +206,27 @@ module switch(){
     }
 }
 
+module boite_base(hauteur){
+    boite_arrondie(longueur_boite,largeur_boite,hauteur);
+    translate([longueur_boite/2+epaisseur,largeur_boite/2+epaisseur,(epaisseur-hauteur)/2])
+    color("blue")
+    accroche(rayon_accroche, rayon_vis, hauteur);
+    translate([-(longueur_boite/2+epaisseur),largeur_boite/2+epaisseur,-(epaisseur+hauteur)/2])
+    color("blue")
+    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur);
+
+    translate([-(longueur_boite/2+epaisseur),-(largeur_boite/2+epaisseur),-(epaisseur+hauteur)/2])
+    color("blue")
+    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur);
+
+    translate([(longueur_boite/2+epaisseur),-(largeur_boite/2+epaisseur),-(epaisseur+hauteur)/2])
+    color("blue")
+    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur);
+}
+
 module boite(){
-    boite_arrondie(longueur_boite,largeur_boite,hauteur_boite);
-    translate([longueur_boite/2+epaisseur,largeur_boite/2+epaisseur,(epaisseur-hauteur_boite)/2])
-    color("blue")
-    accroche(rayon_accroche, rayon_vis, hauteur_boite);
+    boite_base(hauteur_boite);
 
-    translate([-(longueur_boite/2+epaisseur),largeur_boite/2+epaisseur,-(epaisseur+hauteur_boite)/2])
-    color("blue")
-    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur_boite);
-
-    translate([-(longueur_boite/2+epaisseur),-(largeur_boite/2+epaisseur),-(epaisseur+hauteur_boite)/2])
-    color("blue")
-    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur_boite);
-
-    translate([(longueur_boite/2+epaisseur),-(largeur_boite/2+epaisseur),-(epaisseur+hauteur_boite)/2])
-    color("blue")
-    accroche(rayon_accroche, rayon_vis, epaisseur+hauteur_boite);
-    
     translate([-longueur_boite/2-rayon_accroche+largeur_rpi+marge,largeur_boite/2+rayon_accroche-longueur_k8200,-(epaisseur+hauteur_boite)/2])
     rotate([0,0,90])
     color("red") 
@@ -304,7 +329,9 @@ module boite_complete(){
 
 module couvercle_base(){
     difference(){
-        cube_arrondi(longueur_boite+2*epaisseur, largeur_boite+2*epaisseur, epaisseur-rayon_accroche/4);
+        translate([0, 0, epaisseur+epaisseur_ventilo/2])
+        boite_base(epaisseur_ventilo);
+        
         translate([longueur_boite/2+epaisseur,largeur_boite/2+epaisseur,-(epaisseur+hauteur_boite)/2])
     color("blue")
     cylinder (r=rayon_vis, h=hauteur_boite+1, $fn=100);
@@ -327,25 +354,50 @@ module couvercle(){
     difference(){
         couvercle_base();
     
-      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+3*longueur_rpi/4,-10])
+      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge,-10])
         ventilateur(40);
         
-      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+3*longueur_rpi/4-45,-10])
+      translate([longueur_boite/2+rayon_accroche-2*marge-largeur_rpi/2,largeur_boite/2+rayon_accroche-longueur_k8200-marge+45,-10])
         ventilateur(40);
-        
-    translate([-80,-90,1])
+    
+    rotate([180,0,0])    
+    translate([-80,-90,0.5-2*epaisseur_couche])
     linear_extrude(height = 2, center = true, convexity = 10)
     scale(0.55)
-    import("OctoPrint_Logo.dxf");
+    import("OctoPrint_Logo_2.dxf");
+        
+    difference(){
+        translate([-38.25,-31,1.6-2])    
+        cylinder(d=21, h=4, $fn=50);
+        rotate([180,0,0])
+        translate([-80,-90,0.5-0.6])
+        linear_extrude(height = 10, center = true, convexity = 10)
+        scale(0.55)
+        import("OctoPrint_Logo_2.dxf");
+    }
     
-    translate([-70,-340,1])
+    rotate([180,0,0])
+    translate([10,-340,0.49-2*epaisseur_couche])
     linear_extrude(height = 2, center = true, convexity = 10)
     import("K8200.dxf");
+        
+    rotate([180,0,0])
+    translate([-80,-45,0.5-2*epaisseur_couche])
+    linear_extrude(height = 2, center = true, convexity = 10)
+    scale(0.15)
+    import("raspberry_reverse_2.dxf");
+        
+    rotate([180,0,0])
+    translate([-80,-45,0.5-4*epaisseur_couche])
+    linear_extrude(height = 2, center = true, convexity = 10)
+    scale(0.15)
+    import("raspberry_reverse_1.dxf");
 }
     
 }
 
 //boite_complete();
 
-//translate([0,0,10+hauteur_boite/2])
+translate([0,0,epaisseur+epaisseur_ventilo+hauteur_boite/2])
+rotate([180,0,0])
 couvercle();
