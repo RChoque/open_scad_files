@@ -28,7 +28,7 @@ diam_alim = 12;
 //PWR_BTN
 diam_bouton = 16.5;
 //BOITE
-longueur_facade_arriere = (ecartement_vis_rj45+diam_corps_vis)+(ecartement_vis_hdmi+diam_corps_vis)+3*marge;
+longueur_facade_arriere = (ecartement_vis_rj45+diam_corps_vis)+(ecartement_vis_hdmi+diam_corps_vis)+diam_alim+5*marge;
 longueur_facade_avant = 2*(ecartement_vis_usb+diam_corps_vis)+3*marge;
 hauteur_facade = 25;
 longueur_boite = longueur_facade_avant+2*cote_support_couvercle+diam_bouton+5*marge;
@@ -79,10 +79,12 @@ module hdmi() {
 module facade_arriere() {
     difference(){
         cube([longueur_facade_arriere, epaisseur, hauteur_facade], center=true);
-        translate([-ecartement_vis_rj45/2-marge, 0, 0])
+        translate([-longueur_facade_arriere/2+ecartement_vis_rj45/2+marge, 0, 0])
         rj45();
-        translate([ecartement_vis_hdmi/2+marge, 0, 0])
+        translate([-longueur_facade_arriere/2+ecartement_vis_rj45+ecartement_vis_hdmi/2+3*marge, 0, 0])
         hdmi();
+        translate([-longueur_facade_arriere/2+ecartement_vis_rj45+ecartement_vis_hdmi+diam_alim/2+5*marge, 0, 0])
+        #alim();
     }
 }
 
@@ -91,6 +93,7 @@ module bouton_power() {
 }
 
 module alim() {
+    rotate([90,0,0])
     difference(){
         cylinder(d=diam_alim, h=10, $fn=100, center=true);
         translate([0,(diam_alim+10.5)/2,0])
@@ -110,9 +113,6 @@ module boite() {
         translate([0, 0, epaisseur])
         cube([longueur_boite, largeur_boite, hauteur_boite], center=true);
         //ARRIERE
-        translate([(longueur_boite-diam_alim)/2-epaisseur-cote_support_couvercle-marge, -largeur_boite/2, 0])
-        rotate([90,0,0])
-        #alim();
         translate([-(longueur_boite-longueur_facade_arriere)/2+epaisseur+cote_support_couvercle+marge, -largeur_boite/2, 0])
         rotate([90,0,0])
         trou_facade(longueur_facade_arriere, 20);
