@@ -1,10 +1,12 @@
-longueur = 80;
+//longueur = 80;
+hauteur = 55;
 largeur = 10;
 epaisseur = 2;
 diametre_fil = 3;
 diam_cylindre_fil = diametre_fil+2*epaisseur;
 arrondi = (largeur-epaisseur)/2;
-hauteur = longueur/2+diam_cylindre_fil;
+//hauteur = longueur/2+diam_cylindre_fil;
+longueur = 2*(hauteur-diam_cylindre_fil);
 diam_vis_head = 8;
 diam_vis = 4;
 
@@ -59,8 +61,8 @@ module contour() {
 module vis(){
     cylinder(d=diam_vis, h=20, $fn=50);
     cylinder(d1=diam_vis_head, d2=diam_vis, h=3, $fn=50);
-    translate([0,0,0.1-40])
-    cylinder(d=diam_vis_head, h=40, $fn=50);
+    translate([0,0,0.1-50])
+    cylinder(d=diam_vis_head, h=50, $fn=50);
 }
 
 difference(){
