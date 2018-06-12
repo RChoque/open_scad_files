@@ -1,11 +1,11 @@
-diametre_couvercle = 100;
-hauteur_couvercle = 5;
-hauteur_support_batterie = 10;
-longueur_support_batterie = 90;
-largeur_support_batterie = 10;
+diametre_couvercle = 85.5;
+hauteur_couvercle = 11;
+hauteur_support_batterie = 20;
+longueur_support_batterie = 76.5;
+largeur_support_batterie = 21;
 epaisseur = 2;
-longueur_ci_charge = 10;
-largeur_ci_charge = 5;
+longueur_ci_charge = 28;
+largeur_ci_charge = 17;
 
 
 module couvercle() {
