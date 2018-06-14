@@ -8,13 +8,13 @@ longueur_ci_charge = 28;
 largeur_ci_charge = 17;
 
 largeur_usb=8;
-hauteur_usb=3;
-longueur_switch=16;
-longueur_max_switch=24;
-largeur_switch=7.5;
-profondeur_switch=7.5;
+hauteur_usb = 3;
+longueur_switch = 16;
+longueur_max_switch = 24;
+largeur_switch = 7.5;
+profondeur_switch = 7.5;
 longueur_switch_btn = 10;
-largeur_switch_btn=4;
+largeur_switch_btn = 4;
 
 module couvercle() {
     difference(){
@@ -27,19 +27,45 @@ module couvercle() {
     translate([0,0,hauteur_support_batterie/2+epaisseur+0.01])
     cube([longueur_support_batterie,largeur_support_batterie,hauteur_support_batterie], center=true);
         
-    translate([0,(diametre_couvercle-longueur_ci_charge)/2,hauteur_support_batterie/2+2*epaisseur+0.01])
-    union(){
-        cube([largeur_ci_charge,longueur_ci_charge,hauteur_support_batterie], center=true);
-        translate([0,longueur_ci_charge/2,1-(hauteur_support_batterie-hauteur_usb)/2])
-        #cube([largeur_usb,20,hauteur_usb], center=true);
-    }
+    translate([0,(diametre_couvercle-longueur_ci_charge)/2,(hauteur_usb+2*epaisseur)/2+2*epaisseur+0.01])
+    charge_ci();
     
-    translate([0,(diametre_couvercle-longueur_ci_charge),10/2+2*epaisseur+0.01])    cube([largeur_ci_charge,longueur_ci_charge,10], center=true);
+    translate([0,(diametre_couvercle+epaisseur+longueur_ci_charge)/2-0.5,(hauteur_usb+largeur_switch_btn+3*epaisseur)/2+2*epaisseur])    #cube([longueur_max_switch,longueur_ci_charge,hauteur_usb+largeur_switch_btn+3*epaisseur], center=true);
+    
+    translate([0,diametre_couvercle/2,largeur_switch/2+3*epaisseur+hauteur_usb])
+        union(){
+    switch();
+            translate([0,-longueur_ci_charge/2,(hauteur_support_batterie-2*epaisseur-hauteur_usb-largeur_switch)/2+0.01])
+            #cube([longueur_max_switch,longueur_ci_charge,hauteur_support_batterie-2*epaisseur-hauteur_usb], center=true);
+        }
+    }
+}
+
+module charge_ci(){
+    hauteur = hauteur_usb+2*epaisseur;
+    union(){
+        cube([largeur_ci_charge,longueur_ci_charge,hauteur], center=true);
+        translate([0,longueur_ci_charge/2,1-(hauteur-hauteur_usb)/2])
+        #cube([largeur_usb,20,hauteur_usb], center=true);
     }
 }
 
 module switch(){
-    
+    rotate([0,0,180])
+    union(){
+    translate([0,profondeur_switch/2,0])
+    cube([longueur_switch,profondeur_switch,largeur_switch], center=true);
+    translate([0,1/2,0])
+    cube([longueur_max_switch,1,largeur_switch], center=true);
+    translate([0,-profondeur_switch/2,0])
+    cube([longueur_switch_btn,profondeur_switch,largeur_switch_btn], center=true);
+        translate([longueur_max_switch/2-(longueur_max_switch-longueur_switch)/4,0,0])
+        rotate([90,0,0])
+        cylinder(d=2, h=20, $fn=20, center=true);
+        translate([-(longueur_max_switch/2-(longueur_max_switch-longueur_switch)/4),0,0])
+        rotate([90,0,0])
+        cylinder(d=2, h=20, $fn=20, center=true);
+    }
 }
 
 couvercle();
