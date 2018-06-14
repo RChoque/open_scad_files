@@ -1,6 +1,6 @@
 diametre_couvercle = 85.5;
 hauteur_couvercle = 11;
-hauteur_support_batterie = 20;
+hauteur_support_batterie = 22;
 longueur_support_batterie = 76.5;
 largeur_support_batterie = 21;
 epaisseur = 2;
@@ -17,8 +17,9 @@ longueur_switch_btn = 10;
 largeur_switch_btn = 4;
 
 module couvercle() {
+    hauteur_totale = hauteur_couvercle+hauteur_support_batterie+epaisseur;
     difference(){
-        cylinder(d=diametre_couvercle+2*epaisseur, h=hauteur_couvercle+hauteur_support_batterie+epaisseur, $fn=100);
+        cylinder(d=diametre_couvercle+2*epaisseur, h=hauteur_totale, $fn=100);
         translate([0,0,hauteur_support_batterie+epaisseur+0.01])
         cylinder(d=diametre_couvercle, h=hauteur_couvercle, $fn=100);
         translate([0,0,hauteur_support_batterie+epaisseur-hauteur_couvercle+0.01])
@@ -38,7 +39,12 @@ module couvercle() {
             translate([0,-longueur_ci_charge/2,(hauteur_support_batterie-2*epaisseur-hauteur_usb-largeur_switch)/2+0.01])
             #cube([longueur_max_switch,longueur_ci_charge,hauteur_support_batterie-2*epaisseur-hauteur_usb], center=true);
         }
+        for (a =[0:3])
+        rotate([0,0,45+a*90])
+        translate([0,diametre_couvercle/2-3*epaisseur,hauteur_totale-hauteur_support_batterie-hauteur_couvercle+0.01])
+        #cylinder(d=3, h=hauteur_support_batterie, $fn=20);
     }
+    
 }
 
 module charge_ci(){
