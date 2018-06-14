@@ -7,8 +7,14 @@ epaisseur = 2;
 longueur_ci_charge = 28;
 largeur_ci_charge = 17;
 
-largeur_usb=10;
-hauteur_usb = 5;
+largeur_usb=8;
+hauteur_usb=3;
+longueur_switch=16;
+longueur_max_switch=24;
+largeur_switch=7.5;
+profondeur_switch=7.5;
+longueur_switch_btn = 10;
+largeur_switch_btn=4;
 
 module couvercle() {
     difference(){
