@@ -28,12 +28,12 @@ module couvercle() {
     translate([0,0,hauteur_support_batterie/2+epaisseur+0.01])
     cube([longueur_support_batterie,largeur_support_batterie,hauteur_support_batterie], center=true);
         
-    translate([0,(diametre_couvercle-longueur_ci_charge)/2,(hauteur_usb+2*epaisseur)/2+2*epaisseur+0.01])
+    translate([0,(diametre_couvercle-epaisseur-longueur_ci_charge)/2,(hauteur_usb+2*epaisseur)/2+2*epaisseur+0.01])
     charge_ci();
     
     translate([0,(diametre_couvercle+epaisseur+longueur_ci_charge)/2-0.5,(hauteur_usb+largeur_switch_btn+3*epaisseur)/2+2*epaisseur])    #cube([longueur_max_switch,longueur_ci_charge,hauteur_usb+largeur_switch_btn+3*epaisseur], center=true);
     
-    translate([0,diametre_couvercle/2,largeur_switch/2+3*epaisseur+hauteur_usb])
+    translate([0,(diametre_couvercle-epaisseur)/2,largeur_switch/2+3*epaisseur+hauteur_usb])
         union(){
     switch();
             translate([0,-longueur_ci_charge/2,(hauteur_support_batterie-2*epaisseur-hauteur_usb-largeur_switch)/2+0.01])
