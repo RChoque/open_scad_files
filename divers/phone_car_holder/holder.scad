@@ -6,6 +6,6 @@ cylinder(d=9, h=5, $fn=100);
 translate([0,0,30/2+10.5])
 difference(){
 cube([9.5,9.5,30], center=true);
-translate([0,0,2.5])
-cube([4.5,10,30], center=true);
+translate([0,0,3.5])
+cube([4,10,30], center=true);
 }
